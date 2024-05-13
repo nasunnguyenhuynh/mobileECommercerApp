@@ -7,7 +7,7 @@ import Feather from "react-native-vector-icons/Feather"
 import Ionicons from "react-native-vector-icons/Ionicons"
 
 const transparent = 'rgba(0,0,0,0.5)';
-const Info = () => {
+const Info = ({ origin, material, manufacture }) => {
     const [openModel, setOpenModal] = useState(false);
     const data =
     {
@@ -32,10 +32,10 @@ const Info = () => {
     );
 
     const renderItemData = [
-        { title: 'Origin', value: data.info.origin },
-        { title: 'Material', value: data.info.material },
-        { title: 'Manufacture', value: data.info.manufacture },
-        { title: 'Description', value: data.info.description },
+        { title: 'Origin', value: origin },
+        { title: 'Material', value: material },
+        { title: 'Manufacture', value: manufacture },
+        // { title: 'Description', value: data.info.description },
     ];
 
     function renderModal() {

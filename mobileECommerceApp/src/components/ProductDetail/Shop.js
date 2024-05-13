@@ -11,22 +11,20 @@ import { Badge } from "react-native-elements";
 import COLORS from "../COLORS";
 // import api, { enpoints } from "../../utils/api";
 
-const Shop = () => {
-    const nameShop = "LUIS VUITON";
+const Shop = ({ name, logo, rating }) => {
     const locationShop = "TP.Hồ Chí Minh";
     const totalProducts = "37";
-    const rating = "3.6";
 
     return (
         <View style={styles.containerShop}>
             <View style={styles.wrapShopTop}>
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
                     <Image
-                        source={require("../../assets/images/logo.jpg")}
+                        source={{ uri: logo }}
                         style={styles.logoShop}
                     />
                     <View style={styles.wrapNameLocationShop}>
-                        <Text>{nameShop}</Text>
+                        <Text>{name}</Text>
                         <View style={styles.locationShop}>
                             <Ionicons
                                 name={"location-outline"}

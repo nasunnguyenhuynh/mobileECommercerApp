@@ -6,13 +6,14 @@ import {
     View,
     Image,
     TouchableOpacity,
-    Dimensions
+    Dimensions,
+    SafeAreaView
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import FontAwesome from "react-native-vector-icons/FontAwesome"
 import AntDesign from "react-native-vector-icons/AntDesign"
 import api, { authAPI, endpoints } from "../../utils/api";
-import axios from 'axios';
+
 
 const ProductList = () => {
     const [data, setData] = useState([]);
@@ -21,67 +22,67 @@ const ProductList = () => {
     const scrollViewRef = useRef(null);
     const navigation = useNavigation();
 
-    useEffect(() => {
-        fetchCats();
+    useEffect(() => { //fetchProducts() called to update state when Flatlist mounted 1st
+        fetchProducts();
     }, []);
 
-    const fetchCats = () => { // Fetch to GET products
+    const fetchProducts = async () => {
         setRefreshing(true);
-        fetch('https://api.thecatapi.com/v1/images/search?limit=10&page=1')
-            .then(res => res.json())
-            .then(resJson => {
-                setData(resJson);
-                setRefreshing(false);
-            }).catch(e => console.log(e));
+        try {
+            const response = await api.get('/products/');
+            setData(response.data.results); // response.data ->  response.data.results
+            setRefreshing(false);
+            // console.log(response.data);
+        } catch (error) {
+            console.error('Error fetching products:', error);
+            setRefreshing(false);
+        }
+    };
+
+    const fetchProduct = async (id) => {
+        try {
+            api.get(`/products/${id}`)
+                .then(async response => {
+                    if (response.status === 200 && response.data) {
+                        // console.log(response.data);
+                        navigation.navigate('ProductDetail', { fromHome: true, data: response.data });
+                    }
+                })
+                .catch(error => {
+                    console.error(`Error fetching product has id ${id}:`, error)
+                });
+        } catch (error) {
+            console.error(`Error fetching product has id ${id}:`, error);
+        }
     };
 
     handleProductPress = (productId) => {   // Navigate to ProductDetail
-        console.log('Pressed product ID:', productId);
-        navigation.navigate('ProductDetail')
+        // console.log('Pressed product ID:', productId);
+        fetchProduct(productId);
     };
 
     const renderItemComponent = ({ item }) => { // Render Component for Flatlist
-        const productName = item.url.length > 50 ? item.url.substring(0, 50) + '...' : item.url;
-
-        // const productName = data.item.name.length > 50 ? data.item.name.substring(0, 50) + '...' : data.item.name;
-        // const ratings = data.item.rating;
-        // const price = data.item.price;
-        // const sold = data.item.sold_quantity;
         return (
             <TouchableOpacity style={styles.containerProductCard} onPress={() => handleProductPress(item.id)}>
-                <Image style={styles.image} source={{ uri: item.url }} />
+                <Image style={styles.image} source={{ uri: item.img }} />
                 <View style={{ margin: 4 }}>
-                    <Text numberOfLines={2} ellipsizeMode="tail">{productName}</Text>
-                    <View style={{
-                        flexDirection: "row",
-                        alignItems: "center",
-                        borderWidth: 0.5,
-                        borderColor: "#e7700d",
-                        backgroundColor: "#eac55b",
-                        width: 34,
-                        paddingHorizontal: 2,
-                        paddingVertical: 1,
-                        justifyContent: "space-between"
-                    }}>
+                    <Text numberOfLines={2} ellipsizeMode="tail">{item.name}</Text>
+                    <View style={styles.wrapRating}>
                         <FontAwesome name={"star"} size={10} color={"#e7700d"} />
-                        <Text style={{ fontSize: 8 }}>4.7</Text>
+                        <Text style={{ fontSize: 8 }}>{item.rating}</Text>
                     </View>
-                    <View style={{
-                        flexDirection: "row",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                    }}>
-                        <Text style={{ fontSize: 16, color: "#cf3131", textDecorationLine: 'underline' }}>123.000đ</Text>
-                        <Text style={{ fontSize: 10, color: "#6d696996" }}>23k sold</Text>
+                    <View style={styles.wrapPriceSold}>
+                        <Text style={{ fontSize: 16, color: "#cf3131", textDecorationLine: 'underline' }}>{item.price}đ</Text>
+                        <Text style={{ fontSize: 10, color: "#6d696996" }}>{item.sold_quantity} sold</Text>
                     </View>
                 </View>
             </TouchableOpacity>
         )
     };
 
-    const handleRefresh = () => { 
+    const handleRefresh = () => {
         setRefreshing(false);
-        fetchCats();
+        fetchProducts();
     };
 
     const handleScroll = (event) => {
@@ -89,7 +90,7 @@ const ProductList = () => {
         setShowScrollTopButton(yOffset > 300);
     };
 
-    const scrollToTop = () => { 
+    const scrollToTop = () => {
         if (scrollViewRef.current) {
             scrollViewRef.current.scrollToOffset({ offset: 0, animated: true });
         }
@@ -117,7 +118,6 @@ const ProductList = () => {
         </>
     );
 }
-
 export default ProductList;
 
 const { width: screenWidth } = Dimensions.get('window');
@@ -129,6 +129,22 @@ const styles = StyleSheet.create({
         width: containerWidth,
         backgroundColor: '#FFF',
         borderRadius: 6,
+    },
+    wrapRating: {
+        flexDirection: "row",
+        alignItems: "center",
+        borderWidth: 0.5,
+        borderColor: "#e7700d",
+        backgroundColor: "#eac55b",
+        width: 34,
+        paddingHorizontal: 2,
+        paddingVertical: 1,
+        justifyContent: "space-between"
+    },
+    wrapPriceSold: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
     },
     image: {
         height: 140,

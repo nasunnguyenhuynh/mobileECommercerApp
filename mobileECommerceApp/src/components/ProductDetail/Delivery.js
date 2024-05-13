@@ -1,19 +1,8 @@
-import { Image, StyleSheet, Text, View, TextInput, TouchableOpacity, ActivityIndicator, ScrollView, SafeAreaView, FlatList, } from "react-native";
-import FontAwesome from "react-native-vector-icons/FontAwesome"
-import AntDesign from "react-native-vector-icons/AntDesign"
-import Feather from "react-native-vector-icons/Feather"
-import Ionicons from "react-native-vector-icons/Ionicons"
-import React, { useEffect, useState, useRef } from "react";
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Searchbar } from 'react-native-paper';
-import { Badge } from "react-native-elements";
+import { Image, StyleSheet, Text, View, } from "react-native";
+import React from "react";
 import COLORS from "../COLORS";
-// import api, { enpoints } from "../../utils/api";
 
-const Delivery = () => {
-    {/*price_name_rating_sold*/ }
-    const fee = "30.000";
+const Delivery = ({ delivery_price }) => {
 
     return (
         <View style={styles.containerDeliveryFee}>
@@ -25,7 +14,7 @@ const Delivery = () => {
                     marginLeft: 10,
                     fontWeight: "500",
                     color: "tomato",
-                }}>đ{fee}</Text>
+                }}>đ{delivery_price}</Text>
             </View>
             <View style={styles.wrapDeliveryText}>
                 <Text style={styles.deliveryText}>Free shipping for orders from đxxxxx</Text>

@@ -1,7 +1,7 @@
 import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const HOST = 'https://9e12-14-169-22-64.ngrok-free.app'
+const HOST = 'https://18fe-14-169-22-64.ngrok-free.app'
 
 
 export const endpoints = {
@@ -12,8 +12,9 @@ export const endpoints = {
     'signup': '/accounts/signup/',
     'verifyOTP': '/accounts/verify-otp/',
     'basicSetupProfile': '/accounts/basic-setup-profile/',
-    'lessons': (courseId) => `/courses/${courseId}/lessons/`,
+
     'products': '/products/',
+    'products_id': (productId) => `/products/${productId}/`,
 }
 
 export const authAPI = async () => {

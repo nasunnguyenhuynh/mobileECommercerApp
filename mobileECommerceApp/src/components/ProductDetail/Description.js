@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableWithoutFeedback, View, UIManager, Platform, LayoutAnimation, useWindowDimensions } from 'react-native';
 import AntDesign from "react-native-vector-icons/AntDesign"
 
-const Description = ({ data }) => {
-    // console.log(data)
+const Description = ({ description }) => {
     const [opened, setOpened] = useState(false);
-    const contentWidth = useWindowDimensions().width;
+    // const contentWidth = useWindowDimensions().width;
 
     // Supply animation for old android device
     if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
@@ -29,7 +28,7 @@ const Description = ({ data }) => {
             {opened && (
                 <View style={styles.content}>
                     <Text>
-                        {data}
+                        {description}
                     </Text>
                 </View>
             )}

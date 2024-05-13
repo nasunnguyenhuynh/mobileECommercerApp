@@ -9,25 +9,37 @@ import {
     ActivityIndicator,
 } from "react-native";
 
-const Carousel = () => { // Enhance: img choosen by dot
+const Carousel = ({imgList}) => { // Enhance: img choosen by dot
     const flatlistRef = useRef(); // automatic change img
     const screenWidth = Dimensions.get("window").width; // get width screen
     const [activeIndex, setActiveIndex] = useState(0); // get,set idx
     const [catImages, setCatImages] = useState([]); // get,set data fetched
     const [loading, setLoading] = useState(true); // get,set loading data  
 
-    useEffect(() => {
-        fetch("https://api.thecatapi.com/v1/images/search?limit=10&page=1")
-            .then((response) => response.json())
-            .then((data) => {
-                setCatImages(data);
-                setLoading(false);
-            })
-            .catch((error) => {
-                console.error("Error fetching cat images:", error);
-                setLoading(false);
-            });
+    useEffect(() => { //Remove fetch, setCatImages(imgList), try catch -> loading, setLoading
+        try {
+            setCatImages(imgList);
+            setLoading(false);
+        }
+        catch {
+            console.error("Error fetching cat images:", error);
+            setLoading(false);
+        }
     }, []);
+
+    // useEffect(() => {
+    //     fetch("https://api.thecatapi.com/v1/images/search?limit=10&page=1")
+    //         .then((response) => response.json())
+    //         .then((data) => {
+    //             // console.log('data ', data)
+    //             setCatImages(data);
+    //             setLoading(false);
+    //         })
+    //         .catch((error) => {
+    //             console.error("Error fetching cat images:", error);
+    //             setLoading(false);
+    //         });
+    // }, []);
 
     // useEffect(() => {
     //     let interval = setInterval(() => {
@@ -61,7 +73,7 @@ const Carousel = () => { // Enhance: img choosen by dot
                     <ActivityIndicator size="small" color="#bc2b78" />
                 )}
                 <Image
-                    source={{ uri: item.url }}
+                    source={{ uri: item.image }}
                     style={{ height: 400, width: screenWidth }}
                     onLoad={() => setLoading(false)} // Set loading to false when image is loaded
                 />

@@ -1,24 +1,10 @@
-import { Image, StyleSheet, Text, View, TextInput, TouchableOpacity, ActivityIndicator, ScrollView, SafeAreaView, FlatList, } from "react-native";
+import { Image, StyleSheet, Text, View,} from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome"
-import AntDesign from "react-native-vector-icons/AntDesign"
-import Feather from "react-native-vector-icons/Feather"
-import Ionicons from "react-native-vector-icons/Ionicons"
-import React, { useEffect, useState, useRef } from "react";
-import { NavigationContainer } from '@react-navigation/native';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Searchbar } from 'react-native-paper';
-import { Badge } from "react-native-elements";
+import React from "react";
 import COLORS from "../COLORS";
 // import api, { enpoints } from "../../utils/api";
 
-const PriceNameRatingSold = () => {
-    {/*price_name_rating_sold*/ }
-    const price = 0;
-    const name = "React Native: Correct scrolling in horizontal FlatList with Item Separator";
-    // const productName = data.item.url.length > 50 ? data.item.url.substring(0, 50) + '...' : data.item.url;
-    const productName = name.length > 70 ? name.substring(0, 70) + '...' : name;
-    const rating = 0;
-    const sold = 0;
+const PriceNameRatingSold = ({ price, name, rating, sold }) => {
 
     return (
         <View style={styles.containerPriceNameRatingSold}>
@@ -27,10 +13,11 @@ const PriceNameRatingSold = () => {
                     style={{
                         fontSize: 18,
                         fontWeight: "600",
-                    }}>{productName}</Text>
+                        flexWrap: 'wrap',
+                    }}>{name}</Text>
             </View>
             <View style={styles.wrapProductPrice}>
-                <Text style={{ fontSize: 16, color: COLORS.darkRed }}>123.000đ</Text>
+                <Text style={{ fontSize: 16, color: COLORS.darkRed }}>{price}đ</Text>
             </View>
             <View style={styles.wrapProductRatingSold}>
                 <View style={styles.wrapProductRating}>
@@ -39,7 +26,7 @@ const PriceNameRatingSold = () => {
                         size={14}
                         color={COLORS.darkOrange}
                     />
-                    <Text style={{ fontSize: 14, marginLeft: 5, }}>4.7 / 5</Text>
+                    <Text style={{ fontSize: 14, marginLeft: 5, }}>{rating}/5</Text>
                 </View>
                 <View
                     style={{
@@ -49,7 +36,7 @@ const PriceNameRatingSold = () => {
                         height: "80%",
                     }}></View>
                 <View style={styles.wrapProductSold}>
-                    <Text style={{ fontSize: 14, color: COLORS.lightGray }}>23k sold</Text>
+                    <Text style={{ fontSize: 14, color: COLORS.lightGray }}>{sold} sold</Text>
                 </View>
             </View>
 

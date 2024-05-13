@@ -76,7 +76,7 @@ const VerifyOTP = () => {
                             navigation.navigate('BasicSetupProfile');
                         } else {
                             await AsyncStorage.setItem('access_token', response.data.access_token);
-                            navigation.navigate('HomePage');
+                            navigation.navigate('NavPage');
                         }
                     }
                 })

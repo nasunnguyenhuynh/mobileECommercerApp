@@ -51,7 +51,7 @@ const Login = () => {
                         if (response.status === 200 && response.data) {
                             console.log(response.data);
                             await AsyncStorage.setItem('access_token', response.data.access_token);
-                            navigation.navigate('HomePage');
+                            navigation.navigate('NavPage');
                         }
                     })
                     .catch(error => {

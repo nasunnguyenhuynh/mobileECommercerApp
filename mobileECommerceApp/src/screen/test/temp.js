@@ -1,4 +1,4 @@
-// Signup và cập nhật hình ảnh lên server
+//                  ==========      Signup và cập nhật hình ảnh lên server      ==========
 import React, { useState } from 'react';
 import { View, Text, Button, Image, Alert } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
@@ -76,7 +76,7 @@ export default temp;
 
 
 
-//Fetch API using Flatlist to display
+//                  ==========      Fetch API using Flatlist to display     ==========
 // import React from "react";
 // import {
 //   StyleSheet,
@@ -154,3 +154,118 @@ export default temp;
 //     borderRadius: 4,
 //   },
 // });
+
+
+//Flatlist
+//Scroll: scrollToIndex: đến một vị trí cụ thể dựa trên chỉ số của mục.
+//Get in4:  recordInteraction, scrollToEnd
+//Others: scrollToOffset, scrollToEnd, scrollToItem, flashScrollIndicators, recordInteraction.
+//scrollEventThrottle: to handle frequency every {number}ms when scrolling -> enhance performance
+
+
+
+
+//                  ==========      Collapse     ==========
+// import { StyleSheet, Text, View } from 'react-native';
+// import React from 'react';
+// import Accordion from "./src/screen/Page/Accordion";
+
+// const frequentlyAskedQuestions = [
+//     {
+//         question: 'How many subscribers aimed for today?',
+//         answer: 'As many as we can get. Please kindly like and subscribe.',
+//     },
+//     {
+//         question: 'How much does it cost to subscribe to this channel?',
+//         answer:
+//             "There's no charge involved in subscribing, so what's preventing you from subscribing. Please subscribe and like",
+//     },
+//     {
+//         question: 'What will more subscribers do for this channel?',
+//         answer:
+//             'More subscribers would help this poor dude get pumped to do more of this stuff.',
+//     },
+// ];
+
+// export default function App() {
+//     return (
+//         <View style={{ marginVertical: 40, }}>
+//             {frequentlyAskedQuestions.map((faq, index) => (
+//                 <Accordion
+//                     key={index.toString()}
+//                     title={faq.question}
+//                     details={faq.answer}
+//                 />
+//             ))}
+//         </View>
+//     );
+// }
+
+// const styles = StyleSheet.create({});
+
+
+// import React, { useState } from 'react';
+// import { StyleSheet, Text, TouchableWithoutFeedback, View, UIManager, Platform, LayoutAnimation } from 'react-native';
+// import AntDesign from "react-native-vector-icons/AntDesign"
+// // import { bold, regular } from '../utils/fonts';
+
+// export default function Accordion({ title, details }) {
+//     const [opened, setOpened] = useState(false);
+
+//     // Supply animation for old android device
+//     if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
+//         UIManager.setLayoutAnimationEnabledExperimental(true);
+//     }
+
+//     function toggleAccordion() { //easeInEaseOut & setOpened
+//         LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+//         setOpened(!opened);
+//     }
+
+//     return (
+//         <View style={styles.container}>
+//             <TouchableWithoutFeedback onPress={toggleAccordion}>
+//                 <View style={styles.header}>
+//                     <Text style={styles.title}>{title}</Text>
+//                     <AntDesign name={opened ? 'caretup' : 'caretdown'} size={16} />
+//                 </View>
+//             </TouchableWithoutFeedback>
+
+//             {opened && (
+//                 <View style={styles.content}>
+//                     <Text style={styles.details}>{details}</Text>
+//                 </View>
+//             )}
+//         </View>
+//     );
+// }
+
+// const styles = StyleSheet.create({
+//     container: {
+//         margin: 10,
+//         padding: 15,
+//         backgroundColor: 'white',
+//         borderRadius: 6,
+//     },
+//     header: {
+//         flexDirection: 'row',
+//         justifyContent: 'space-between',
+//     },
+//     title: {
+//         // ...bold,
+//         textTransform: 'capitalize',
+//     },
+//     content: {
+//         marginTop: 8,
+//     },
+//     details: {
+//         // ...regular,
+//         opacity: 0.65,
+//     },
+// });
+
+
+
+
+
+

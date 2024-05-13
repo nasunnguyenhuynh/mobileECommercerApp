@@ -1,0 +1,55 @@
+Accordion (Collapse)
+ModalExample
+
+NavPage.js: Tabar
+    Home.js: Searchbar, Cart, BubbleMessage 
+        -> ProductList.js: Flatlist with 2 col & btnScrollTop to display Products (doesn't has wrap text)
+    Profile.js: userAvatar, Settings_Cart_BubbleMessage, Support
+        -> ExtensionElement.js,
+        -> OrderProcessElement.js,
+
+ProductDetail.js
+    -> Carousel.js: Flatlist horizontal with dot of imgs
+    -> ProductDetail_PriceNameRatingSold.js
+    -> ProductDetail_Delivery.js
+    -> ProductDetail_Shop.js
+    -> ProductDetail_Info.js: Modal & Flatlist with 2 col has wrap text
+    -> ProductDetail_Description.js: Collapse
+
+
+Dưới đây là một số điểm khác nhau giữa React.Component và hàm bình thường trong JavaScript:
+
+Component Lifecycle và State: React.Component cung cấp các phương thức lifecycle như componentDidMount, componentDidUpdate, và componentWillUnmount để quản lý vòng đời của component. Nó cũng cho phép sử dụng state thông qua this.state và setState(). Trong khi đó, một hàm bình thường không có sẵn các phương thức lifecycle này và không thể sử dụng state của React.
+
+Render Method: Một React.Component phải cung cấp một phương thức render() để trả về JSX hoặc các element React khác. Phương thức này xác định nội dung của component được render ra trình duyệt. Trong khi đó, một hàm bình thường có thể trả về bất kỳ giá trị nào, không nhất thiết phải là JSX hoặc element React.
+
+Props: Cả hai đều có thể nhận props nhưng cách truyền đối với hàm bình thường là thông qua tham số của hàm, trong khi đối với React.Component, props được truyền vào thông qua thuộc tính this.props.
+
+Kế thừa: Một React.Component có thể được kế thừa bởi các component khác để tái sử dụng logic và giao diện. Trong khi đó, một hàm bình thường không thể được kế thừa như vậy.
+
+Context và Refs: React.Component cung cấp hỗ trợ cho context và refs, cho phép truy cập đến các đối tượng và dữ liệu ở mức global hoặc local. Trong khi đó, hàm bình thường không có tính năng này mặc định.
+
+
+
+
+
+Trong React Navigation, mỗi màn hình được render bởi một StackNavigator hoặc TabNavigator được cung cấp bởi React Navigation sẽ nhận được một prop gọi là navigation. Prop này chứa các phương thức điều hướng như navigate, goBack, push, pop, vv.
+
+Khi bạn truyền { navigation } vào một màn hình thông qua options của Tab.Screen, bạn đang cung cấp cho màn hình đó khả năng sử dụng các phương thức điều hướng từ navigation prop. Khi bạn sử dụng navigation.navigate('ProductDetail') trong màn hình đó, React Navigation sẽ tìm kiếm màn hình có tên là ProductDetail trong các tuyến đường điều hướng đã đăng ký và chuyển đến màn hình đó.
+
+Do đó, chỉ cần truyền { navigation } vào một màn hình, bạn có thể sử dụng navigation.navigate() để điều hướng đến bất kỳ màn hình nào đã được đăng ký trong cấu hình điều hướng của ứng dụng.
+
+
+
+
+createAppContainer(AppNavigator);
+
+AppNavigator (Home, Detail)
+    class HomeScreen extends React.Component: export default withNavigation(HomeScreen); (* props details passed) & has  many <Product /> and  wrapped by ScrollView
+    class DetailsScreen extends React.Component:   export default DetailsScreen;
+
+class Product extends React.Component :  export default withNavigation(Product); (* props details passed)
+
+
+1. HomeScreen, DetailsScreen: cung cap va la component
+2. Moi Product la 1 commponent

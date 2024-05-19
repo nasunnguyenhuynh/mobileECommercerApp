@@ -9,16 +9,6 @@ import Ionicons from "react-native-vector-icons/Ionicons"
 const transparent = 'rgba(0,0,0,0.5)';
 const Info = ({ origin, material, manufacture }) => {
     const [openModel, setOpenModal] = useState(false);
-    const data =
-    {
-        "info": {
-            "id": 1,
-            "origin": "Mỹ",
-            "material": "Nhựa, kim lọai tổng hợp",
-            "description": "<p>BLUETOOTH 5.2</p>\r\n\r\n<p>- Để tăng trải nghiệm kh&ocirc;ng d&acirc;y ho&agrave;n to&agrave;ntr&ecirc;n Headphone Bluetooth, ONEODIO đ&atilde; trang bị Bluetooth 5.2 hiện đại cho d&ograve;ng sản phẩm tai nghe Headphone Bluetooth OneOdio A70, đem lại 1 trải nghiệm kết nối nhanh, ổn định hơn với khoảng c&aacute;ch kết nối xa hơn.</p>\r\n\r\n<p>&nbsp;M&Agrave;NG LOA RỘNG 40MM - THIẾT KẾ OVER-EAR</p>\r\n\r\n<p>- ONEODIO A70 trang bị Driver40mm c&ugrave;ng thiết kế Over-Ear cho khả năng chống ồn thụ động tốt khi bao k&iacute;n được tai của người sử dụng.</p>\r\n\r\n<p>- Với m&agrave;ng loa rộng 40mm, A70 mang đến chất lượng sống động v&agrave; ch&acirc;n thực. &Acirc;mtrầm mạnh mẽ, giọng h&aacute;t r&otilde; r&agrave;ng v&agrave; &acirc;m cao sắc n&eacute;t tạo th&agrave;nh &acirc;mthanh c&acirc;n bằng ho&agrave;n hảo, n&acirc;ng cao trải nghiệm &acirc;m nhạc của người d&ugrave;ng.</p>\r\n\r\n",
-            "manufacture": "ONIO"
-        }
-    }
 
     const renderItem = ({ item }) => (
         <View style={styles.item}>

@@ -53,6 +53,8 @@ const Login = () => {
                             await AsyncStorage.setItem('access_token', response.data.access_token);
                             navigation.navigate('NavPage');
                         }
+                        else
+                            navigation.navigate('Login');
                     })
                     .catch(error => {
                         // console.error('Login failed:', error);

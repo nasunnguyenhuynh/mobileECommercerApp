@@ -26,7 +26,7 @@ const PriceNameRatingSold = ({ price, name, rating, sold }) => {
                         size={14}
                         color={COLORS.darkOrange}
                     />
-                    <Text style={{ fontSize: 14, marginLeft: 5, }}>{rating}/5</Text>
+                    <Text style={{ fontSize: 14, marginLeft: 5, }}>{Math.round(rating * 10) / 10}/5</Text>
                 </View>
                 <View
                     style={{

@@ -1,20 +1,26 @@
 Accordion (Collapse)
 ModalExample
 
+NavRating.js: pass initialParams to Tabs
+    Tab.js: createMaterialTopTabNavigator 
+        -> ProductRating.js
+        -> ShopRating.js
+
 NavPage.js: Tabar
     Home.js: Searchbar, Cart, BubbleMessage 
         -> ProductList.js: Flatlist with 2 col & btnScrollTop to display Products (doesn't has wrap text)
+        Math.round(item.rating * 10) / 10
     Profile.js: userAvatar, Settings_Cart_BubbleMessage, Support
         -> ExtensionElement.js,
         -> OrderProcessElement.js,
 
 ProductDetail.js
     -> Carousel.js: Flatlist horizontal with dot of imgs
-    -> ProductDetail_PriceNameRatingSold.js
-    -> ProductDetail_Delivery.js
-    -> ProductDetail_Shop.js
-    -> ProductDetail_Info.js: Modal & Flatlist with 2 col has wrap text
-    -> ProductDetail_Description.js: Collapse
+    -> PriceNameRatingSold.js
+    -> Delivery.js
+    -> Shop.js
+    -> Info.js: Modal & Flatlist with 2 col has wrap text
+    -> Description.js: Collapse
 
 
 Dưới đây là một số điểm khác nhau giữa React.Component và hàm bình thường trong JavaScript:

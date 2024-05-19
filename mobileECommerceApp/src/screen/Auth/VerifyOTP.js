@@ -18,7 +18,7 @@ const VerifyOTP = () => {
             setError("This field cannot be empty");
             return;
         }
-
+        
         try {
             // Nếu từ Signup điều hướng đến thực hiện yêu cầu GET trước khi POST
             if (fromSignup) {
@@ -66,10 +66,12 @@ const VerifyOTP = () => {
     // Hàm để thực hiện yêu cầu POST sau khi đã kiểm tra kết quả từ yêu cầu GET
     const postVerifyOTP = async () => {
         try {
+            
             const axiosInstance = await authAPI();
 
             axiosInstance.post('/accounts/verify-otp/', { otp: otp })
                 .then(async response => {
+                    
                     if (response.status === 200 && response.data) {
                         console.log(response.data);
                         if (response.data.success === "Continue to setup profile to finish") {

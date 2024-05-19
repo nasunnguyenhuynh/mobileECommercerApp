@@ -53,7 +53,7 @@ const Shop = ({ name, logo, rating }) => {
                     <Text style={{ marginLeft: 4, fontSize: 10 }}>Products</Text>
                 </View>
                 <View style={styles.rating}>
-                    <Text style={{ color: COLORS.darkRed, fontSize: 10 }}>{rating}</Text>
+                    <Text style={{ color: COLORS.darkRed, fontSize: 10 }}>{Math.round(rating * 10) / 10}</Text>
                     <Text style={{ marginLeft: 4, fontSize: 10 }}>Ratings</Text>
                 </View>
             </View>

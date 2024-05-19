@@ -13,6 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 import FontAwesome from "react-native-vector-icons/FontAwesome"
 import AntDesign from "react-native-vector-icons/AntDesign"
 import api, { authAPI, endpoints } from "../../utils/api";
+import FormatCurrency from "../FormatCurrency";
 
 
 const ProductList = () => {
@@ -44,7 +45,7 @@ const ProductList = () => {
             api.get(`/products/${id}`)
                 .then(async response => {
                     if (response.status === 200 && response.data) {
-                        // console.log(response.data);
+                        //console.log('data to ProductDetail : ', response.data); //Send JSON
                         navigation.navigate('ProductDetail', { fromHome: true, data: response.data });
                     }
                 })
@@ -62,6 +63,7 @@ const ProductList = () => {
     };
 
     const renderItemComponent = ({ item }) => { // Render Component for Flatlist
+        // console.log(typeof item.rating)
         return (
             <TouchableOpacity style={styles.containerProductCard} onPress={() => handleProductPress(item.id)}>
                 <Image style={styles.image} source={{ uri: item.img }} />
@@ -69,10 +71,10 @@ const ProductList = () => {
                     <Text numberOfLines={2} ellipsizeMode="tail">{item.name}</Text>
                     <View style={styles.wrapRating}>
                         <FontAwesome name={"star"} size={10} color={"#e7700d"} />
-                        <Text style={{ fontSize: 8 }}>{item.rating}</Text>
+                        <Text style={{ fontSize: 8 }}>{Math.round(item.rating * 10) / 10}</Text>
                     </View>
                     <View style={styles.wrapPriceSold}>
-                        <Text style={{ fontSize: 16, color: "#cf3131", textDecorationLine: 'underline' }}>{item.price}đ</Text>
+                        <Text style={{ fontSize: 16, color: "#cf3131", textDecorationLine: 'underline' }}>{FormatCurrency(item.price)}đ</Text>
                         <Text style={{ fontSize: 10, color: "#6d696996" }}>{item.sold_quantity} sold</Text>
                     </View>
                 </View>
@@ -102,7 +104,7 @@ const ProductList = () => {
                 data={data}
                 renderItem={renderItemComponent}
                 keyExtractor={item => item.id.toString()}
-                numColumns={2}
+                numColumns={2}          
                 refreshing={refreshing}
                 onRefresh={handleRefresh}
                 style={{ margin: 10 }}

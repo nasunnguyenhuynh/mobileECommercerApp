@@ -27,7 +27,8 @@ const ExtensionElement = ({ iconType, iconName, iconColor, text, containerStyle,
     const isTextLong = text.length > 16; // Kiểm tra xem độ dài của văn bản có lớn hơn 15 ký tự không
 
     return (
-        <TouchableOpacity style={[styles.extensionElement, containerStyle]}>
+        // <TouchableOpacity style={[styles.extensionElement, containerStyle]}>
+        <View style={[styles.extensionElement, containerStyle]}>
             <View>
                 <IconComponent
                     name={iconName}
@@ -44,7 +45,8 @@ const ExtensionElement = ({ iconType, iconName, iconColor, text, containerStyle,
             ) : (
                 <Text style={[styles.text, textStyle]}>{text}</Text>
             )}
-        </TouchableOpacity>
+        </View>
+        // </TouchableOpacity>
     );
 }
 

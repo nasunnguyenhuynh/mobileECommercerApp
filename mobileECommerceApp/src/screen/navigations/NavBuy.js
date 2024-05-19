@@ -11,7 +11,7 @@ import ProductDetail from "../Page/ProductDetail";
 // import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-const NavPage = ({ navigation }) => {
+const NavBuy = ({ navigation }) => {
     //     const authenticateUser = async () => {
     //         try {
     //             const access_token = await AsyncStorage.getItem('access_token');
@@ -88,6 +88,6 @@ const NavPage = ({ navigation }) => {
 
 };
 
-export default NavPage;
+export default NavBuy;
 
 const styles = StyleSheet.create({})

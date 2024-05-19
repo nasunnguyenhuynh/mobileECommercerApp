@@ -1,15 +1,19 @@
-import { Image, Text, View, TextInput, TouchableOpacity, ActivityIndicator } from "react-native";
+import { Image, StyleSheet, Text, View, TextInput, TouchableOpacity, ActivityIndicator, ScrollView, FlatList, } from "react-native";
 import * as ImagePicker from 'expo-image-picker';
-// import { TextInput } from 'react-native-paper';
+import AntDesign from "react-native-vector-icons/AntDesign"
 import FontAwesome from "react-native-vector-icons/FontAwesome"
+import Feather from "react-native-vector-icons/Feather"
+import Ionicons from "react-native-vector-icons/Ionicons"
+import React, { useEffect, useState, useRef } from "react";
+import { Badge } from "react-native-elements";
+import api, { authAPI, enpoints } from "../../utils/api";
 import { useNavigation } from "@react-navigation/native";
-import React, { useState } from 'react';
-import api, { authAPI, endpoints } from "../../utils/api";
-import styles from "../../styles/Auth/styles";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import OrderProcessElement from "../../components/Profile/OrderProcessElement";
+import ExtensionElement from "../../components/Profile/ExtensionElement";
 
-
-const BasicSetupProfile = () => {
+const CreateStore = ({ route }) => {
+    const { userId } = route.params;
+    console.log('userId:', userId);
     const [username, setUsername] = useState("");
     const [image, setImage] = useState('');
     const [error, setError] = useState('');
@@ -18,17 +22,12 @@ const BasicSetupProfile = () => {
 
     const navigation = useNavigation()
 
-    const handleUpdate = async () => {
+    const handleSend = async (userId) => {
         if (!image) {
-            setError("Avatar and Username is required!");
+            setError("Image is required!");
             setFocusField('image');
         }
-        else if (!username) {
-            console.log('image', image.uri)
-            setError("Username is required!");
-            setFocusField('username');
-            return;
-        } else {
+        else {
             try {
                 setLoading(true);
                 const axiosInstance = await authAPI();
@@ -40,43 +39,37 @@ const BasicSetupProfile = () => {
                 const filetype = match ? `image/${match[1]}` : 'image/jpeg'; // Xác định loại dựa trên đuôi tệp
 
                 let formData = new FormData();
-                formData.append('avatar', {
+                formData.append('citizen_identification_image', {
                     uri: image, // Truy cập vào URI của hình ảnh đã chọn
                     name: filename, // Tên của tệp hình ảnh
                     type: filetype, // Loại hình ảnh
                 });
-                formData.append('username', username);
 
-                axiosInstance.post('/accounts/basic-setup-profile/', formData, {
+                axiosInstance.post(`/users/${userId}/confirmationshop/`, formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data', // Định dạng của dữ liệu gửi đi
                     },
                 })
                     .then(async response => {
-                        if (response.status === 200 && response.data) {
+                        if (response.status === 201 && response.data) {
                             console.log('response: ', response.data);
-                            await AsyncStorage.setItem('access_token', response.data.access_token);
+                            //Hien thi gui di thanh cong -> Chinh button createShop --> Quay ve Profile
                             navigation.navigate('NavPage');
                         }
                     })
                     .catch(error => {
                         console.log('error: ', error);
-                        setError("Username already taken!");
+                        setError("An error occurred during sending, please try again");
                         setLoading(false);
                     });
             } catch (error) {
                 console.error('Error with API call:', error);
-                setError("An error occurred during profile setup");
+                setError("An error occurred during sending, please try again");
                 setLoading(false);
             }
         }
     };
 
-    const handleFieldFocus = (field) => {
-        if (error && field === 'username') {
-            setError('');
-        }
-    };
 
     const pickImage = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
@@ -98,7 +91,7 @@ const BasicSetupProfile = () => {
             <View style={{ marginHorizontal: 40, marginVertical: 60 }}>
                 <View style={styles.formMain}>
                     <View style={{ marginBottom: 30 }}>
-                        <Text style={styles.loginText}>Setup profile</Text>
+                        <Text style={styles.loginText}>Confirmation Shop</Text>
                     </View>
                     <View style={styles.logoLoginContainer} >
                         <TouchableOpacity style={styles.logo} onPress={pickImage}>
@@ -112,32 +105,17 @@ const BasicSetupProfile = () => {
                             )}
                         </TouchableOpacity>
                     </View>
+
                     <View style={styles.wrapInputContainer}>
-                        <View style={[styles.inputContainer, focusField === 'username']}>
-                            <FontAwesome
-                                name={"user"}
-                                size={24}
-                                color={"#9A9A9A"}
-                                style={styles.inputIcon}
-                            />
-                            <TextInput
-                                style={styles.textInput}
-                                placeholder="Username"
-                                onChangeText={setUsername}
-                                value={username}
-                                onFocus={() => handleFieldFocus('username')}
-                                onBlur={() => setFocusField('')}
-                            />
-                        </View>
                         {error !== "" && <Text style={{ color: "red" }}>{error}</Text>}
                         <TouchableOpacity
                             style={styles.loginButtonContainer}
-                            onPress={loading ? null : handleUpdate}
+                            onPress={loading ? null : () => handleSend(userId)}
                             disabled={loading}>
                             {loading ? (
                                 <ActivityIndicator size="small" color="#bc2b78" />
                             ) : (
-                                <Text style={styles.loginButtonText}>Update</Text>
+                                <Text style={styles.loginButtonText}>Send</Text>
                             )}
                         </TouchableOpacity>
                     </View>
@@ -145,6 +123,97 @@ const BasicSetupProfile = () => {
             </View>
         </View >
     );
-};
+}
 
-export default BasicSetupProfile;
+export default CreateStore;
+
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: "#F5F5F5",
+        flex: 1,
+        // justifyContent: "center"
+    },
+    logoLoginContainer: {
+        flexDirection: "row",
+        justifyContent: "center"
+    },
+    logo: {
+        width: 160,
+        height: 160,
+        borderRadius: 100
+    },
+    loginTextContainer: {
+        marginTop: 30,
+    },
+    loginText: {
+        textAlign: "center",
+        fontSize: 24,
+        fontWeight: "bold",
+        color: "#232836",
+    },
+    wrapInputContainer: {
+        marginVertical: 10,
+    },
+    inputContainer: {
+        backgroundColor: "#FFFFFF",
+        flexDirection: "row",
+        borderRadius: 20,
+        elevation: 10,
+        alignItems: "center",
+        height: 50,
+        marginVertical: 14
+    },
+    inputIcon: {
+        marginLeft: 15,
+        marginRight: 5,
+    },
+    textInput: {
+        flex: 1,
+    },
+    textLinkContainer: {
+        flexDirection: "row",
+        justifyContent: "space-between"
+    },
+    forgotPasswordText: {
+        color: "#0171d3",
+        fontSize: 12,
+    },
+    loginWithPasswordText: {
+        color: "#0171d3",
+        fontSize: 12,
+    },
+    loginWithSMSText: {
+        color: "#0171d3",
+        fontSize: 12,
+    },
+    loginButtonContainer: {
+        marginVertical: 20,
+        paddingVertical: 10,
+        paddingHorizontal: 20,
+        backgroundColor: "#016dcb",
+        alignItems: "center",
+        justifyContent: "center",
+        borderRadius: 20
+    },
+    loginButtonText: {
+        fontSize: 20,
+        fontWeight: "400",
+        color: "#fff"
+    },
+    textLinkSignupContainer: {
+        flexDirection: "row",
+        justifyContent: "center"
+    },
+    socialMediaContainer: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "center"
+    },
+    socialIcon: {
+        backgroundColor: "white",
+        marginHorizontal: 10,
+        borderRadius: 50,
+        padding: 10,
+        elevation: 10,
+    }
+})

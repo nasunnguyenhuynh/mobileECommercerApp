@@ -1,47 +1,31 @@
 import { Image, StyleSheet, Text, View, TextInput, TouchableOpacity, ActivityIndicator, ScrollView, SafeAreaView, FlatList, useWindowDimensions } from "react-native";
 
 import FontAwesome from "react-native-vector-icons/FontAwesome"
+import FontAwesome5 from "react-native-vector-icons/FontAwesome5"
 import AntDesign from "react-native-vector-icons/AntDesign"
 import Feather from "react-native-vector-icons/Feather"
 import Ionicons from "react-native-vector-icons/Ionicons"
 
 import React, { useEffect, useState, useRef } from "react";
-import api, { endpoints } from "../../utils/api";
+import { NavigationContainer, useRoute } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Badge } from "react-native-elements";
+
+import api, { enpoints } from "../../utils/api";
 import COLORS from "../../components/COLORS";
-import { useNavigation } from "@react-navigation/native";
-import NavRating from "../../screen/navigations/NavRating"
-import ProductRating from "../../screen/Page/ProductRating";
 
-const CommentsRatings = ({ product_id, averageStarProductRating, averageStarShopRating }) => { //GET: product_id, averageStarRatingProduct, totalRatingProduct, 
-    const [commentsRatings, setCommentsRatings] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const navigation = useNavigation();
-
-    useEffect(() => {
-        const fetchCommentsRatings = async () => {
-            try {
-                const response = await api.get(endpoints.comment_rating(product_id));
-                if (response.status === 200 && response.data) {
-                    // console.log('response.data ' , response.data) //get []
-                    setCommentsRatings(response.data);
-                }
-            } catch (error) {
-                console.error(`Error fetching comments and ratings for product ID ${product_id}:`, error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchCommentsRatings();
-    }, [product_id]);
-
-    if (loading) {
-        return <ActivityIndicator size="large" color="#0000ff" />;
-    }
+const ShopRating = ({ route }) => {
+    const { fromCommentsRatings, data, shopRating } = route.params;
+    // console.log('fromCommentsRatings_ShopRating:', fromCommentsRatings);
+    // console.log('data_ShopRating:', data);
+    // console.log('shopRating :', shopRating);
 
     const totalRatingProduct = 892;
     const productType = "Colors Size"
 
+    // return (
+    //     <Text>Shop rating</Text>
+    // )
 
     return (
         <View style={styles.containerCommentsRatings}>
@@ -52,7 +36,7 @@ const CommentsRatings = ({ product_id, averageStarProductRating, averageStarShop
                             fontSize: 16,
                             fontWeight: "500",
                             textTransform: 'capitalize',
-                        }}>Product Ratings</Text>
+                        }}>Shop Ratings</Text>
                     </View>
                     <View style={styles.commentsRatingsTitleDetail}>
                         <View style={styles.wrapProductRating}>
@@ -62,7 +46,7 @@ const CommentsRatings = ({ product_id, averageStarProductRating, averageStarShop
                                 color={COLORS.darkOrange}
                             />
                             <Text style={{ fontSize: 10, marginLeft: 5, color: COLORS.darkRed }}>
-                                {Math.round(averageStarProductRating * 10) / 10}/5</Text>
+                                {Math.round(shopRating * 10) / 10}/5</Text>
                         </View>
                         <View style={styles.wrapTotalProductRating}>
                             <Text style={{ fontSize: 10, color: COLORS.lightGray }}>(Total {totalRatingProduct} ratings)</Text>
@@ -70,13 +54,9 @@ const CommentsRatings = ({ product_id, averageStarProductRating, averageStarShop
                     </View>
                 </View>
                 <View>
-                    <TouchableOpacity
+                    {/* <TouchableOpacity
                         style={styles.btnCommentsRatingsViewAll}
-                        onPress={() => navigation.navigate('NavRating', {
-                            fromCommentsRatings: true, data: commentsRatings, id: product_id,
-                            productRating: averageStarProductRating,
-                            shopRating: averageStarShopRating
-                        })} //  Send commentsRatings[] to NavRating.js
+                        onPress={() => navigation.navigate('NavRating', { fromCommentsRatings: true, data: commentsRatings })}
                     >
                         <Text style={{ color: COLORS.darkOrange }}>View all</Text>
                         <AntDesign
@@ -84,13 +64,13 @@ const CommentsRatings = ({ product_id, averageStarProductRating, averageStarShop
                             size={14}
                             color={COLORS.darkOrange}
                         />
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                 </View>
             </View>
             {/* Start Loop */}
             {
-                commentsRatings.slice(0, 2).map((item) => { // GET 2 element in commentsRatings[]
-                    const { id, comment: { contentProduct }, user: { username, avatar }, rating: { ratedShop } } = item;
+                data.map((item) => { // GET all element in commentsRatings[]
+                    const { id, comment: { contentShop }, user: { username, avatar }, rating: { ratedShop } } = item;
                     const stars = Array.from({ length: Math.round(ratedShop) }, (_, index) => index + 1);
                     const secureAvatarUrl = avatar.startsWith("https://") ? avatar : avatar.replace("image/upload/http://", "https://");
 
@@ -128,7 +108,7 @@ const CommentsRatings = ({ product_id, averageStarProductRating, averageStarShop
 
                             <View style={styles.wrapUserComment}>
                                 <Text style={{ color: "#6d6969", flexWrap: 'wrap' }}>Classification: {productType}</Text>
-                                <Text style={{ flexWrap: 'wrap' }}>{contentProduct}</Text>
+                                <Text style={{ flexWrap: 'wrap' }}>{contentShop}</Text>
                             </View>
                         </View>
                     );
@@ -139,10 +119,9 @@ const CommentsRatings = ({ product_id, averageStarProductRating, averageStarShop
     )
 }
 
-export default CommentsRatings;
+export default ShopRating;
 
 const styles = StyleSheet.create({
-    // Component Comments_Ratings --> Using collapse
     containerCommentsRatings: {
         backgroundColor: "#fff",
         marginBottom: 10,

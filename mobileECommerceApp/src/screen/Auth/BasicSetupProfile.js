@@ -1,6 +1,5 @@
 import { Image, Text, View, TextInput, TouchableOpacity, ActivityIndicator } from "react-native";
 import * as ImagePicker from 'expo-image-picker';
-// import { TextInput } from 'react-native-paper';
 import FontAwesome from "react-native-vector-icons/FontAwesome"
 import { useNavigation } from "@react-navigation/native";
 import React, { useState } from 'react';

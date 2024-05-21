@@ -1,18 +1,18 @@
 import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const HOST = 'https://908a-14-169-22-64.ngrok-free.app'
+const HOST = 'https://c8be-14-169-22-64.ngrok-free.app'
 
 
 export const endpoints = {
-    'currentUser': '/users/current-user/',
-    'categories': '/categories/',
+    'currentUser': '/users/current-user/', //GET, PATCH
     'login': '/accounts/login/',
     'loginWithSms': '/accounts/login-with-sms/',
     'signup': '/accounts/signup/',
     'verifyOTP': '/accounts/verify-otp/',
     'basicSetupProfile': '/accounts/basic-setup-profile/',
 
+    'categories': '/categories/',
     'products': '/products/',
     'products_id': (productId) => `/products/${productId}/`,
     'comment_rating': (productId) => `/products/${productId}/rating_comment/`,
@@ -21,8 +21,10 @@ export const endpoints = {
         `/products/${productId}/replyParentComment/${parentCommentId}/replyChildComments/`,
     'replyComment': (productId) => `/products/${productId}/replyComment/`,
 
-    'sendConfirmationShop': (userId) => `/users/${userId}/confirmationshop/`,
-    'getConfirmationShop': (userId) => `/users/${userId}/confirmationshop/`,
+    'confirmationShop': (userId) => `/users/${userId}/confirmationshop/`, //GET, POST
+
+    'addresses': (userId) => `/users/${userId}/addresses/`, //GET, POST
+    'addressDefault': (userId, addressId) => `/users/${userId}/addresses/${addressId}/default/`, //PATCH
 
     'payment': '/payment',
 }

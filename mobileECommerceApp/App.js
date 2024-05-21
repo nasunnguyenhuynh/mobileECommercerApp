@@ -10,6 +10,8 @@ import Signup from "./src/screen/Auth/Signup"
 import NavPage from "./src/screen/navigations/NavPage";
 import NavRating from "./src/screen/navigations/NavRating";
 import NavExtension from "./src/screen/navigations/NavExtension";
+import NavPayment from "./src/screen/navigations/NavPayment";
+import NavAddress from "./src/screen/navigations/NavAddress";
 import VerifyOTP from "./src/screen/Auth/VerifyOTP";
 import BasicSetupProfile from "./src/screen/Auth/BasicSetupProfile";
 import ProductDetail from "./src/screen/Page/ProductDetail";
@@ -17,6 +19,7 @@ import ProductList from "./src/components/Home/ProductList";
 import ModalExample from "./src/screen/test/ModalExample"
 
 import Test from "./src/screen/Test";
+import Payment from "./src/screen/navigations/Payment";
 
 const Stack = createStackNavigator();
 export default function App() {
@@ -32,13 +35,15 @@ export default function App() {
               CardStyleInterpolators.forHorizontalIOS,
           }}
           />
-          <Stack.Screen name="Test" component={Test} options={{}}
-          />
           <Stack.Screen name="NavPage" component={NavPage} options={{}}
           />
           <Stack.Screen name="NavRating" component={NavRating} options={{}}
           />
           <Stack.Screen name="NavExtension" component={NavExtension} options={{}}
+          />
+          <Stack.Screen name="NavPayment" component={NavPayment} options={{}}
+          />
+          <Stack.Screen name="NavAddress" component={NavAddress} options={{}}
           />
           <Stack.Screen name="ProductDetail" component={ProductDetail} options={{}}
           />
@@ -65,9 +70,6 @@ export default function App() {
         </Stack.Navigator>
       </NavigationContainer>
     </SafeAreaProvider >
-    // <ModalExample />
-    // <ProductDetail />
-
   )
 }
 const styles = StyleSheet.create({})

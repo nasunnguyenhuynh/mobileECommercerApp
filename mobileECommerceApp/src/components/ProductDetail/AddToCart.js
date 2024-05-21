@@ -6,10 +6,13 @@ import AntDesign from "react-native-vector-icons/AntDesign"
 import Feather from "react-native-vector-icons/Feather"
 import Ionicons from "react-native-vector-icons/Ionicons"
 import COLORS from "../COLORS";
-import { color } from "react-native-elements/dist/helpers";
+import { useNavigation } from "@react-navigation/native";
+import FormatCurrency from "../FormatCurrency";
 const transparent = 'rgba(0,0,0,0.5)';
 
 const AddToCart = ({ visible, closeModal, colors, price }) => {
+    const navigation = useNavigation();
+
 
     console.log('visible_tocard ', visible)
     console.log('closeModal_tocard', closeModal)
@@ -17,9 +20,11 @@ const AddToCart = ({ visible, closeModal, colors, price }) => {
     if (!visible) return null;
     // Handle select image product
     const [selectedImage, setSelectedImage] = useState(null);
+    const [selectedColor, setSelectedColor] = useState(null);
 
-    const handleSelectImage = (imageUri) => {
+    const handleSelectImage = (imageUri, nameColor) => {
         setSelectedImage({ uri: imageUri });
+        setSelectedColor(nameColor);
     };
     // Handle choose quantity
     const [quantity, setQuantity] = useState(1);
@@ -35,7 +40,7 @@ const AddToCart = ({ visible, closeModal, colors, price }) => {
     const renderItem = ({ item }) => (
         <View style={styles.wrapColorBadge}>
             <TouchableOpacity style={styles.colorBadge}
-                onPress={() => handleSelectImage(item.url_image)}>
+                onPress={() => handleSelectImage(item.url_image, item.name_color)}>
                 <Image
                     source={{ uri: item.url_image }}
                     style={styles.imgColor}
@@ -95,7 +100,7 @@ const AddToCart = ({ visible, closeModal, colors, price }) => {
                                 style={styles.largeImage}
                             />
                             <View style={styles.wrapPrice}>
-                                <Text style={{ color: "red", fontSize: 16 }}>{price}đ</Text>
+                                <Text style={{ color: "red", fontSize: 16 }}>{FormatCurrency(price)}đ</Text>
                             </View>
                         </View>
 
@@ -132,12 +137,22 @@ const AddToCart = ({ visible, closeModal, colors, price }) => {
 
                         {
                             selectedImage ?
-                                <TouchableOpacity style={[styles.btnAddToCart, { backgroundColor: 'green' }
-                                ]}>
+                                <TouchableOpacity
+                                    style={[styles.btnAddToCart, { backgroundColor: 'green' }]}
+                                    onPress={() => {
+                                        closeModal();
+                                        navigation.navigate('NavPayment', {
+                                            price: price,
+                                            quantity: quantity,
+                                            color: selectedColor
+                                        });
+                                    }}>
                                     <Text style={{ fontSize: 18 }}>Add to cart</Text>
+                                    {/* price, quantity, name, color */}
                                 </TouchableOpacity> :
-                                <View style={[styles.btnAddToCart, { backgroundColor: 'gray' }
-                                ]}>
+                                <View
+                                    style={[styles.btnAddToCart, { backgroundColor: 'gray' }]}
+                                >
                                     <Text style={{ fontSize: 18 }}>Add to cart</Text>
                                 </View>
                         }

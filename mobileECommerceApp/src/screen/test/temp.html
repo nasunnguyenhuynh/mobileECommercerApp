@@ -72,20 +72,132 @@ CPython/3.11.9", "vary": "Accept, origin", "x-content-type-options": "nosniff", 
 
 
 
-Comment.js
-<View style={styles.containerUserCommentRating} key={id}>
-    <View style={styles.wrapUserRating}>
-        <View style={{ flexDirection: "row" , alignItems: "center" , }}>
-            <Image source={{ uri: secureAvatarUrl }} style={styles.avatarUser} />
-            <View style={styles.wrapUserNameRating}>
-                <Text style={{ fontSize: 14, fontWeight: "500" , flexWrap: 'wrap' }}>{username}</Text>
-                <Text style={{ fontSize: 14, fontWeight: "400" , flexWrap: 'wrap' }}>{content}</Text>
-            </View>
+Payment.js
+{/* Product */}
+<View style={styles.productContainer}>
+    <View>
+        <Text style={styles.shopName}>{shopName}</Text>
+    </View>
+    <View style={styles.wrapProduct}>
+        {/* productImg */}
+        {/*
+        <Image source={{ uri: item.url_image }} style={styles.productImg} /> */}
+        <Image source={require("../../assets/images/logo.jpg")} style={styles.productImg} />
+        <View style={styles.wrapProductInfo}>
+            <Text style={styles.productName}>{productName}</Text>
+            <Text style={styles.productText}>Classification: {classification}</Text>
+            <Text style={styles.productText}>Quantity: {quantity}</Text>
+            <Text style={styles.productText}>đ{FormatCurrency(productPrice)}</Text>
         </View>
-        {/* onPress={() => handleViewReplyComment(productId, id) */}
-        <TouchableOpacity>
-            <Text style={styles.viewReplyComment}>Xem {}phản hồi</Text>
-        </TouchableOpacity>
-        <CommentItem comment={item} />
     </View>
 </View>
+
+{/* Transportation */}
+<View style={styles.transportationContainer}>
+    <View style={styles.wrapTransportationMethodPrice}>
+        <Text style={{ fontWeight: "500" , }}>{transportationNameMethod}</Text>
+        <Text>đ{FormatCurrency(transportationFee)}</Text>
+    </View>
+    <Text style={styles.transportationText}>
+        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's
+        standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make
+        a type specimen book.
+    </Text>
+</View>
+
+{/* methodPayment */}
+<TouchableOpacity style={styles.methodPaymentContainer}>
+    <View style={styles.wrapMethodPaymentLeft}>
+        <MaterialIcons name={"currency-exchange"} size={16} color={COLORS.darkRed} style={{}} />
+        <Text style={{ marginLeft: 5, }}>Method Payment</Text>
+    </View>
+    <View style={styles.wrapMethodPaymentRight}>
+        <Text>{methodPaymentName}</Text>
+        <AntDesign name={"right"} size={16} color={COLORS.lightGray} style={{}} />
+    </View>
+</TouchableOpacity>
+
+{/* PaymentDetailContainer */}
+<View style={styles.paymentDetailContainer}>
+    <View style={styles.paymentDetailTitle}>
+        <FontAwesome name={"newspaper-o"} size={16} color={COLORS.darkOrange} style={{}} />
+        <Text style={{ marginLeft: 10, fontWeight: "500" }}>Payment Detail</Text>
+    </View>
+    <View style={styles.wrapTotalProductPrice}>
+        <Text>TotalProductPrice</Text>
+        <Text>đ{FormatCurrency(productPrice)}</Text>
+    </View>
+    <View style={styles.wrapTotalTransportationFee}>
+        <Text>TotalTransportationFee</Text>
+        <Text>đ{FormatCurrency(transportationFee)}</Text>
+    </View>
+    <View style={styles.wrapProductDiscount}>
+        <Text>ProductDiscount</Text>
+        <Text>đ{FormatCurrency(productDiscount)}</Text>
+    </View>
+    <View style={styles.wrapTransportationDiscount}>
+        <Text>TransportationDiscount</Text>
+        <Text>đ{FormatCurrency(productDiscount)}</Text>
+    </View>
+    <View style={styles.wrapTotal}>
+        <Text style={{ fontSize: 16, }}>Total</Text>
+        <Text style={{ color: COLORS.darkOrange, fontSize: 16, }}>
+            đ{FormatCurrency(productDiscount)}</Text>
+    </View>
+</View>
+
+{/* Noti terms */}
+<View style={styles.notiTermsContainer}>
+    <FontAwesome name={"newspaper-o"} size={16} color={COLORS.darkOrange} style={{}} />
+    <Text style={{ marginLeft: 10, fontSize: 12 }}>
+        Clicking "
+        <Text style={{ fontWeight: "500" , fontSize: 12 }}>Purchase</Text>
+        " means obeying our
+        <Text style={{ textDecorationLine: "underline" , color: COLORS.blueSky }}> terms</Text>
+    </Text>
+</View>
+
+
+
+{
+    "address": "45/8 Đồ Chiểu", 
+    "default": false, 
+    "id": 18, 
+    "name": "DDD2", 
+    "phone_number": "0123456789", 
+    "user": {"avatar": "http://res.cloudinary.com/diwxda8bi/image/upload/v1715936468/ekldpzysoedzfwoygjel", "birthday": null, "email": "", "first_name": "Huy", "id": 5, "last_name": "Nguyễn", "phone": "0123456789", "username": "DDD2"}},
+
+    {"address": "136/78 Bình Dương ", 
+    "default": false, 
+    "id": 19, "name": 
+    "DDD2", "phone_number": 
+    "0123456789", 
+    "user": 
+        {"avatar": "http://res.cloudinary.com/diwxda8bi/image/upload/v1715936468/ekldpzysoedzfwoygjel", 
+        "birthday": null, 
+        "email": "", 
+        "first_name": "Huy", 
+        "id": 5, 
+        "last_name": "Nguyễn", 
+        "phone": "0123456789", 
+        "username": "DDD2"}
+    }, "3", "6", "6", " ", "N", "g", "u", "y", "ễ", "n", " ", "V", "ă", "n", " ", "L", "i", "n", "h", " "
+
+
+    {
+        "address": "366 Nguyễn Văn Linh ", 
+        "default": false, 
+        "id": 20, 
+        "name": "DDD2", 
+        "phone_number": "0123456789", 
+        "user": 
+            {"avatar": "http://res.cloudinary.com/diwxda8bi/image/upload/v1715936468/ekldpzysoedzfwoygjel", 
+            "birthday": null, 
+            "email": "", 
+            "first_name": "Huy", 
+            "id": 5, 
+            "last_name": "Nguyễn", 
+            "phone": "0123456789", 
+            "username": "DDD2"
+        }
+    }

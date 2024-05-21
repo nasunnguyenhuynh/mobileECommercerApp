@@ -15,11 +15,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 const Tab = createMaterialTopTabNavigator();
 function Extension({ route }) {
-    // const { userId } = route.params;
-    // console.log('userId:', userId);
     const { userId, statusId } = route.params;
-
-    const [activeTab, setActiveTab] = useState('CreateStore');
 
     return (
         <Tab.Navigator

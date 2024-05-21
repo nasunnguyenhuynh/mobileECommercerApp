@@ -59,7 +59,7 @@ const Profile = ({ navigation }) => {
 
             if (response.data) {
                 setUserData(response.data);
-                const dataConfirm = await api.get(endpoints.getConfirmationShop(response.data.id));
+                const dataConfirm = await api.get(endpoints.confirmationShop(response.data.id));
                 setConfirmation(dataConfirm.data);
 
                 console.log('dataConfirm.data ', dataConfirm.data)

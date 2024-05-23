@@ -1,7 +1,7 @@
 import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const HOST = 'https://c8be-14-169-22-64.ngrok-free.app'
+const HOST = 'https://e090-14-169-22-64.ngrok-free.app'
 
 
 export const endpoints = {
@@ -26,6 +26,7 @@ export const endpoints = {
     'addresses': (userId) => `/users/${userId}/addresses/`, //GET, POST
     'addressDefault': (userId, addressId) => `/users/${userId}/addresses/${addressId}/default/`, //PATCH
 
+    'order': (userId) => `/users/${userId}/orders/`, //GET, POST
     'payment': '/payment',
 }
 

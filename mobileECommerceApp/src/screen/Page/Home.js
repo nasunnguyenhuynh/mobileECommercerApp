@@ -95,10 +95,6 @@ const Home = ({ navigation }) => {
                 </View>
             </View>
             <ProductList />
-            {/* <Button
-                title="Go to ProductDetail"
-                onPress={() => navigation.navigate('ProductDetail')}
-            /> */}
         </View >
     );
 }
@@ -109,13 +105,11 @@ export default Home;
 const styles = StyleSheet.create({
     container: {
         backgroundColor: "#F5F5F5",
-        // backgroundColor: "gray",
         flex: 1,
     },
     wrapHeaderHompage: {
         flexDirection: "row",
         alignItems: "center",
-        // backgroundColor: "blue",
     },
     inputContainer: {
         backgroundColor: "#FFFFFF",
@@ -133,12 +127,12 @@ const styles = StyleSheet.create({
     },
     textInput: {
         flex: 1,
+        marginRight: 10,
     },
     wrapCartMessage: {
         flexDirection: "row",
         alignItems: "center",
         flex: 1,
-        // backgroundColor: "tomato",
         justifyContent: "flex-end"
     },
 })

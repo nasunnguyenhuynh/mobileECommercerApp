@@ -42,6 +42,7 @@ export default StyleSheet.create({
     },
     textInput: {
         flex: 1,
+        marginRight: 10,
     },
     textLinkContainer: {
         flexDirection: "row",

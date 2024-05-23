@@ -41,7 +41,7 @@ const ProductDetail = () => {
         info: { origin, material, description, manufacture },
         colors,
         sell: { rating, sold_quantity, delivery_price }, // getTotalRatingProduct
-        shop: { img, name: nameShop, rated },
+        shop: { img, name: shopName, rated },
         images } = route.params.data;
     const [showScrollTopButton, setShowScrollTopButton] = useState(false);
     const scrollViewRef = useRef(null);
@@ -81,7 +81,7 @@ const ProductDetail = () => {
                         <Delivery delivery_price={FormatCurrency(delivery_price)} />
 
                         {/*shop*/}
-                        <Shop name={nameShop} logo={img} rating={rated} />
+                        <Shop name={shopName} logo={img} rating={rated} />
 
                         {/*voucher*/}
 
@@ -102,7 +102,11 @@ const ProductDetail = () => {
                                 visible={isModalVisible}
                                 closeModal={closeModal}
                                 colors={colors}
-                                price={price}
+                                productPrice={price}
+                                shopName={shopName}
+                                productName={productName}
+                                deliveryPrice={delivery_price}
+                                productId={id}
                             />
                         )}
                     </View>

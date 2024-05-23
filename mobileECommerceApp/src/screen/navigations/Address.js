@@ -30,7 +30,7 @@ function Address({ navigation, route }) {
     const [address, setAddress] = useState(route.params.address);
     const [phone, setPhone] = useState(route.params.phone);
 
-    const [price, setPrice] = useState(route.params.price);
+    const [productPrice, setProductPrice] = useState(route.params.productPrice);
     const [quantity, setQuantity] = useState(route.params.quantity);
     const [color, setColor] = useState(route.params.color);
 
@@ -45,11 +45,11 @@ function Address({ navigation, route }) {
         console.log('updatedAddresses ', updatedAddresses)
         setAddress(updatedAddresses)
         //Edit for suitable with key in NavAddress.js
-        console.log('price ', price)
+        console.log('productPrice ', productPrice)
         console.log('quantity ', quantity)
         console.log('color ', color)
         navigation.navigate('Payment', {
-            price,
+            productPrice,
             quantity,
             color,
         })

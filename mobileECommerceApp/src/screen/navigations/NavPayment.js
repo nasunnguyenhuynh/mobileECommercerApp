@@ -9,6 +9,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { createStackNavigator } from '@react-navigation/stack';
 
 import Payment from "../navigations/Payment"
+import PaymentMethod from "../navigations/PaymentMethod"
 
 const Stack = createStackNavigator();
 
@@ -17,24 +18,30 @@ function NavPayment({ navigation }) {
     const route = useRoute();
 
     return (
-        <Stack.Navigator>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
             <Stack.Screen
                 name="Payment"
                 component={Payment}
                 initialParams={{
-                    price: route.params.price,
+                    productId: route.params.productId,
+                    productName: route.params.productName,
+                    productImg: route.params.productImg,
+                    productPrice: route.params.productPrice,
                     quantity: route.params.quantity,
-                    color: route.params.color,
+                    colorId: route.params.colorId,
+                    colorName: route.params.colorName,
+                    shopName: route.params.shopName,
+                    deliveryPrice: route.params.deliveryPrice,
                 }} // pass initialParams to Payment
-                options={{
-                    headerLeft: () => (
-                        <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginLeft: 10 }}>
-                            <AntDesign name="arrowleft" size={30} color="black" />
-                        </TouchableOpacity>
-                    ),
-                    headerTitle: 'Payment',
-                }}
             />
+            {/* Method: VNPAY */}
+            <Stack.Screen
+                name="PaymentMethod"
+                component={PaymentMethod}
+                initialParams={{ url: route.params.url }} // pass initialParams to VNPAY
+                options={{}}
+            />
+
         </Stack.Navigator>
     );
 }

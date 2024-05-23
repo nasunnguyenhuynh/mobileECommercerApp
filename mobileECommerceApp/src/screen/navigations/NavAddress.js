@@ -31,7 +31,7 @@ function NavAddress({ navigation }) {
                     address: route.params.addresses,
                     phone: route.params.phone,
 
-                    price: route.params.price,
+                    productPrice: route.params.productPrice,
                     quantity: route.params.quantity,
                     color: route.params.color,
                 }} // pass initialParams to Address

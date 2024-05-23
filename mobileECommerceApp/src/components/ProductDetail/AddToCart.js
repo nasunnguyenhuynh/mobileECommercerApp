@@ -10,21 +10,24 @@ import { useNavigation } from "@react-navigation/native";
 import FormatCurrency from "../FormatCurrency";
 const transparent = 'rgba(0,0,0,0.5)';
 
-const AddToCart = ({ visible, closeModal, colors, price }) => {
+const AddToCart = ({ visible, closeModal, colors, productPrice, shopName, productName, deliveryPrice, productId }) => {
     const navigation = useNavigation();
 
 
     console.log('visible_tocard ', visible)
     console.log('closeModal_tocard', closeModal)
+    console.log('deliveryPrice ', deliveryPrice)
     // Check visible
     if (!visible) return null;
     // Handle select image product
     const [selectedImage, setSelectedImage] = useState(null);
-    const [selectedColor, setSelectedColor] = useState(null);
+    const [selectedColorName, setSelectedColor] = useState(null);
+    const [selectedColorId, setSelectedColorId] = useState(null);
 
-    const handleSelectImage = (imageUri, nameColor) => {
+    const handleSelectImage = (imageUri, colorName, colorId) => {
         setSelectedImage({ uri: imageUri });
-        setSelectedColor(nameColor);
+        setSelectedColor(colorName);
+        setSelectedColorId(colorId);
     };
     // Handle choose quantity
     const [quantity, setQuantity] = useState(1);
@@ -40,7 +43,7 @@ const AddToCart = ({ visible, closeModal, colors, price }) => {
     const renderItem = ({ item }) => (
         <View style={styles.wrapColorBadge}>
             <TouchableOpacity style={styles.colorBadge}
-                onPress={() => handleSelectImage(item.url_image, item.name_color)}>
+                onPress={() => handleSelectImage(item.url_image, item.name_color, item.id)}>
                 <Image
                     source={{ uri: item.url_image }}
                     style={styles.imgColor}
@@ -100,7 +103,7 @@ const AddToCart = ({ visible, closeModal, colors, price }) => {
                                 style={styles.largeImage}
                             />
                             <View style={styles.wrapPrice}>
-                                <Text style={{ color: "red", fontSize: 16 }}>{FormatCurrency(price)}đ</Text>
+                                <Text style={{ color: "red", fontSize: 16 }}>{FormatCurrency(productPrice)}đ</Text>
                             </View>
                         </View>
 
@@ -141,10 +144,16 @@ const AddToCart = ({ visible, closeModal, colors, price }) => {
                                     style={[styles.btnAddToCart, { backgroundColor: 'green' }]}
                                     onPress={() => {
                                         closeModal();
-                                        navigation.navigate('NavPayment', {
-                                            price: price,
+                                        navigation.navigate('NavPayment', {                                     
+                                            shopName: shopName,
+                                            productId: productId,
+                                            productName: productName,
+                                            productImg: selectedImage,
+                                            productPrice: productPrice,
                                             quantity: quantity,
-                                            color: selectedColor
+                                            colorId: selectedColorId,
+                                            colorName: selectedColorName,
+                                            deliveryPrice: deliveryPrice,
                                         });
                                     }}>
                                     <Text style={{ fontSize: 18 }}>Add to cart</Text>

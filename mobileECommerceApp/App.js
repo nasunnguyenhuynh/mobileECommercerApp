@@ -8,6 +8,7 @@ import Login from "./src/screen/Auth/Login"
 import LoginWithSms from "./src/screen/Auth/LoginWithSms"
 import Signup from "./src/screen/Auth/Signup"
 import NavPage from "./src/screen/navigations/NavPage";
+import NavSearch from "./src/screen/navigations/NavSearch";
 import NavRating from "./src/screen/navigations/NavRating";
 import NavExtension from "./src/screen/navigations/NavExtension";
 import NavPayment from "./src/screen/navigations/NavPayment";
@@ -29,23 +30,46 @@ export default function App() {
       {/*Only 1 NavContainer*/}
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="Login">
-          {/* <Stack.Navigator screenOptions={{ headerShown: false, }} initialRouteName="NavPage"> */}
+        {/* <Stack.Navigator screenOptions={{ headerShown: false, }} initialRouteName="NavSearch"> */}
           <Stack.Screen name="Login" component={Login} options={{
             cardStyleInterpolator:
               CardStyleInterpolators.forHorizontalIOS,
           }}
           />
-          <Stack.Screen name="NavPage" component={NavPage} options={{}}
+          <Stack.Screen name="NavPage" component={NavPage} options={{
+            cardStyleInterpolator:
+              CardStyleInterpolators.forHorizontalIOS,
+          }}
           />
-          <Stack.Screen name="NavRating" component={NavRating} options={{}}
+          <Stack.Screen name="NavSearch" component={NavSearch} options={{
+            cardStyleInterpolator:
+              CardStyleInterpolators.forHorizontalIOS,
+          }}
           />
-          <Stack.Screen name="NavExtension" component={NavExtension} options={{}}
+          <Stack.Screen name="NavRating" component={NavRating} options={{
+            cardStyleInterpolator:
+              CardStyleInterpolators.forHorizontalIOS,
+          }}
           />
-          <Stack.Screen name="NavPayment" component={NavPayment} options={{}}
+          <Stack.Screen name="NavExtension" component={NavExtension} options={{
+            cardStyleInterpolator:
+              CardStyleInterpolators.forHorizontalIOS,
+          }}
           />
-          <Stack.Screen name="NavAddress" component={NavAddress} options={{}}
+          <Stack.Screen name="NavPayment" component={NavPayment} options={{
+            cardStyleInterpolator:
+              CardStyleInterpolators.forHorizontalIOS,
+          }}
           />
-          <Stack.Screen name="ProductDetail" component={ProductDetail} options={{}}
+          <Stack.Screen name="NavAddress" component={NavAddress} options={{
+            cardStyleInterpolator:
+              CardStyleInterpolators.forHorizontalIOS,
+          }}
+          />
+          <Stack.Screen name="ProductDetail" component={ProductDetail} options={{
+            cardStyleInterpolator:
+              CardStyleInterpolators.forHorizontalIOS,
+          }}
           />
           <Stack.Screen name="LoginWithSms" component={LoginWithSms} options={{
             cardStyleInterpolator:

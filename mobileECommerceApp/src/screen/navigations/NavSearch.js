@@ -2,7 +2,7 @@ import { StyleSheet, View, Text, TextInput, Button, TouchableOpacity } from "rea
 import AntDesign from "react-native-vector-icons/AntDesign"
 import Feather from "react-native-vector-icons/Feather"
 import Ionicons from "react-native-vector-icons/Ionicons"
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, useRoute } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -12,77 +12,58 @@ import SearchProduct from "../navigations/SearchProduct"
 const Stack = createStackNavigator();
 
 
-function NavSearch({ navigation }) {
-    const route = useRoute();
-    useEffect(() => {
-        console.log('NavSearch params:', route.params);
-    }, [route.params]);  //navigation
-
-    const CustomHeader = () => (
-        <View style={styles.wrapHeaderHompage}>
-            <TouchableOpacity onPress={() => navigation.goBack()} style={{}}>
-                <AntDesign name="arrowleft" size={30} color="black" />
-            </TouchableOpacity>
-            {/* Search */}
-            <View style={styles.inputContainer} >
-                <Feather
-                    name={"search"}
-                    size={20}
-                    color={"#9A9A9A"}
-                    style={styles.inputIcon}
-                />
-                <TextInput
-                    style={styles.textInput}
-                    placeholder="Search"
-                />
-            </View>
-            {/* Filter */}
-            <TouchableOpacity style={styles.wrapFilter}>
-                <AntDesign
-                    name={"filter"}
-                    size={30}
-                    color={"#000"}
-                    style={{}}
-                />
-                <View style={{ height: "100%", justifyContent: "flex-end" }}>
-                    <Text style={{ fontSize: 8, }}>
-                        Filter
-                    </Text>
-                </View>
-            </TouchableOpacity>
-        </View>
-    );
-
+function NavSearch({ navigation, route }) {
+    const [search, setSearch] = useState(route.params.search || '');
     return (
         <Stack.Navigator>
             <Stack.Screen
                 name="SearchProduct"
                 component={SearchProduct}
                 initialParams={{
-                    // id: route.params.id,
-                    // username: route.params.username,
-                    // firstName: route.params.firstName,
-                    // lastName: route.params.lastName,
-                    // address: route.params.addresses,
-                    // phone: route.params.phone,
-
-                    // productPrice: route.params.productPrice,
-                    // quantity: route.params.quantity,
-                    // color: route.params.color,
-                }} // pass initialParams to Address
+                    search: route.params.search,
+                }} // pass initialParams to SearchProduct
                 options={{
-                    // headerLeft: () => (
-                    //     <TouchableOpacity onPress={() => navigation.goBack()} style={{ marginLeft: 10 }}>
-                    //         <AntDesign name="arrowleft" size={30} color="black" />
-                    //     </TouchableOpacity>
-                    // ),
-                    headerTitle: () => <CustomHeader />,
+                    headerTitle: () => {
+                        return (
+                            <View style={styles.wrapHeaderHompage}>
+                                <View style={styles.inputContainer} >
+                                    <Feather
+                                        name={"search"}
+                                        size={20}
+                                        color={"#9A9A9A"}
+                                        style={styles.inputIcon}
+                                    />
+                                    <TextInput
+                                        style={styles.textInput}
+                                        placeholder="Search"
+                                        value={search}
+                                        onChangeText={text => setSearch(text)}
+                                    />
+                                </View>
+                                {/* Filter */}
+                                <TouchableOpacity style={styles.wrapFilter}>
+                                    <AntDesign
+                                        name={"filter"}
+                                        size={30}
+                                        color={"#000"}
+                                        style={{}}
+                                    />
+                                    <View style={{ height: "100%", justifyContent: "flex-end" }}>
+                                        <Text style={{ fontSize: 8 }}>
+                                            Filter
+                                        </Text>
+                                    </View>
+                                </TouchableOpacity>
+                            </View>
+                        )
+                    }
                 }}
             />
         </Stack.Navigator>
 
     );
 }
+
 
 export default NavSearch;
 

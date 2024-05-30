@@ -102,7 +102,6 @@ const ProductList = () => {
     return (
         <>
             <FlatList
-                // data={apiProducts.results}
                 data={data}
                 renderItem={renderItemComponent}
                 keyExtractor={item => item.id.toString()}

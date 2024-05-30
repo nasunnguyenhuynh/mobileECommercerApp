@@ -13,6 +13,8 @@ import ProductList from "../../components/Home/ProductList";
 const Home = ({ navigation }) => {
     const numberMessage = 12;
     const numberProductInCart = 27;
+    const [search, setSearch] = useState('');
+    
 
     return (
         <View style={styles.container}>
@@ -21,15 +23,18 @@ const Home = ({ navigation }) => {
                 <View style={styles.wrapHeaderHompage}>
                     {/* Search */}
                     <View style={styles.inputContainer} >
-                        <Feather
-                            name={"search"}
-                            size={24}
-                            color={"#9A9A9A"}
-                            style={styles.inputIcon}
-                        />
+                        <TouchableOpacity onPress={() => navigation.navigate('NavSearch', { search: search })}>
+                            <Feather
+                                name={"search"}
+                                size={24}
+                                color={"#9A9A9A"}
+                                style={styles.inputIcon}
+                            />
+                        </TouchableOpacity>
                         <TextInput
                             style={styles.textInput}
                             placeholder="Search"
+                            onChangeText={setSearch}
                         />
                     </View>
 

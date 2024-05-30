@@ -1,7 +1,7 @@
 import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const HOST = 'https://e090-14-169-22-64.ngrok-free.app'
+const HOST = 'https://a4a7-14-169-22-64.ngrok-free.app'
 
 
 export const endpoints = {
@@ -13,8 +13,12 @@ export const endpoints = {
     'basicSetupProfile': '/accounts/basic-setup-profile/',
 
     'categories': '/categories/',
+    // /products/?page=1
     'products': '/products/',
     'products_id': (productId) => `/products/${productId}/`,
+    'products_n': (name) => `/products/?n=${name}`,
+    'products_pmn': (pmn) => `/products/?pmn=${pmn}`,
+
     'comment_rating': (productId) => `/products/${productId}/rating_comment/`,
     'parentComment': (productId) => `/products/${productId}/replyParentComment/`,
     'childComment': (productId, parentCommentId) =>

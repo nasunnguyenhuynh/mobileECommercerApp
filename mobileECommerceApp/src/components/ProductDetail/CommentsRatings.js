@@ -6,7 +6,7 @@ import Feather from "react-native-vector-icons/Feather"
 import Ionicons from "react-native-vector-icons/Ionicons"
 
 import React, { useEffect, useState, useRef } from "react";
-import api, { endpoints } from "../../utils/api";
+import api, { authAPI, endpoints } from "../../utils/api";
 import COLORS from "../../components/COLORS";
 import { useNavigation } from "@react-navigation/native";
 import NavRating from "../../screen/navigations/NavRating"
@@ -20,7 +20,7 @@ const CommentsRatings = ({ product_id, averageStarProductRating, averageStarShop
     useEffect(() => {
         const fetchCommentsRatings = async () => {
             try {
-                const response = await api.get(endpoints.comment_rating(product_id));
+                const response = await authAPI.get(endpoints.comment_rating(product_id));
                 if (response.status === 200 && response.data) {
                     // console.log('response.data ' , response.data) //get []
                     setCommentsRatings(response.data);

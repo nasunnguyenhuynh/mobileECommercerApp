@@ -10,11 +10,11 @@ import { Badge } from "react-native-elements";
 import api, { enpoints } from "../../utils/api";
 import ProductList from "../../components/Home/ProductList";
 
-const Home = ({ navigation }) => {
+const Home = ({ navigation, route }) => {
     const numberMessage = 12;
     const numberProductInCart = 27;
     const [search, setSearch] = useState('');
-    
+
 
     return (
         <View style={styles.container}>

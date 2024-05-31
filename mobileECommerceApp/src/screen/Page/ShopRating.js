@@ -16,16 +16,8 @@ import COLORS from "../../components/COLORS";
 
 const ShopRating = ({ route }) => {
     const { fromCommentsRatings, data, shopRating } = route.params;
-    // console.log('fromCommentsRatings_ShopRating:', fromCommentsRatings);
-    // console.log('data_ShopRating:', data);
-    // console.log('shopRating :', shopRating);
-
     const totalRatingProduct = 892;
     const productType = "Colors Size"
-
-    // return (
-    //     <Text>Shop rating</Text>
-    // )
 
     return (
         <View style={styles.containerCommentsRatings}>
@@ -54,17 +46,6 @@ const ShopRating = ({ route }) => {
                     </View>
                 </View>
                 <View>
-                    {/* <TouchableOpacity
-                        style={styles.btnCommentsRatingsViewAll}
-                        onPress={() => navigation.navigate('NavRating', { fromCommentsRatings: true, data: commentsRatings })}
-                    >
-                        <Text style={{ color: COLORS.darkOrange }}>View all</Text>
-                        <AntDesign
-                            name={"right"}
-                            size={14}
-                            color={COLORS.darkOrange}
-                        />
-                    </TouchableOpacity> */}
                 </View>
             </View>
             {/* Start Loop */}

@@ -11,17 +11,14 @@ import NavPage from "./src/screen/navigations/NavPage";
 import NavSearch from "./src/screen/navigations/NavSearch";
 import NavProduct from "./src/screen/navigations/NavProduct";
 import NavRating from "./src/screen/navigations/NavRating";
+import NavOrder from "./src/screen/navigations/NavOrder";
 import NavExtension from "./src/screen/navigations/NavExtension";
 import NavPayment from "./src/screen/navigations/NavPayment";
 import NavAddress from "./src/screen/navigations/NavAddress";
 import VerifyOTP from "./src/screen/Auth/VerifyOTP";
 import BasicSetupProfile from "./src/screen/Auth/BasicSetupProfile";
 import ProductDetail from "./src/screen/Page/ProductDetail";
-import ProductList from "./src/components/Home/ProductList";
-import ModalExample from "./src/screen/test/ModalExample"
-
-import Test from "./src/screen/Test";
-import Payment from "./src/screen/navigations/Payment";
+import PaymentMethod from "./src/screen/navigations/PaymentMethod";
 
 const Stack = createStackNavigator();
 export default function App() {
@@ -57,12 +54,22 @@ export default function App() {
               CardStyleInterpolators.forHorizontalIOS,
           }}
           />
+          <Stack.Screen name="NavOrder" component={NavOrder} options={{
+            cardStyleInterpolator:
+              CardStyleInterpolators.forHorizontalIOS,
+          }}
+          />
           <Stack.Screen name="NavExtension" component={NavExtension} options={{
             cardStyleInterpolator:
               CardStyleInterpolators.forHorizontalIOS,
           }}
           />
           <Stack.Screen name="NavPayment" component={NavPayment} options={{
+            cardStyleInterpolator:
+              CardStyleInterpolators.forHorizontalIOS,
+          }}
+          />
+          <Stack.Screen name="PaymentMethod" component={PaymentMethod} options={{
             cardStyleInterpolator:
               CardStyleInterpolators.forHorizontalIOS,
           }}

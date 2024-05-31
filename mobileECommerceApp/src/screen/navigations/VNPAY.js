@@ -33,6 +33,10 @@ function VNPAY({ navigation }) {
         const { url: newUrl } = navState;
         console.log('url_State ', newUrl)
         if (newUrl.includes('payment_return')) {
+
+            const axiosInstance = await authAPI();
+            const response = await axiosInstance.get(newUrl);
+            //console.log('response ', response.data)
             // Parse the URL to get the query parameters
             const urlParams = new URLSearchParams(new URL(newUrl).search);
             const vnp_ResponseCode = urlParams.get('vnp_ResponseCode');

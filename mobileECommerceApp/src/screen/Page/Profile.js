@@ -19,31 +19,9 @@ const Profile = ({ navigation }) => {
     const numberDelivering = 5;
     const numberRating = 0;
 
-    const data = [
-        {
-            "id": 1,
-            "user": {
-                "id": 4,
-                "username": "nguyenducmanh",
-                "avatar": "http://res.cloudinary.com/diwxda8bi/image/upload/v1715394029/bdnf2mkwksktgklvobwm",
-                "first_name": "",
-                "last_name": "",
-                "email": "",
-                "birthday": null,
-                "phone": "0888232363"
-            },
-            "status": {
-                "id": 4,
-                "status_content": "Đang phê duyệt"
-            },
-            "citizen_identification_image": "http://res.cloudinary.com/diwxda8bi/image/upload/v1715856147/srxgijtlqsosqa3urwba.jpg",
-            "note": null
-        }
-    ]
-
-
-    const [confirmation, setConfirmation] = useState('');
     const [userData, setUserData] = useState(null);
+    const [confirmation, setConfirmation] = useState('');
+    const [order, setOrder] = useState('');
     const [loadingUserData, setLoadingUserData] = useState(true);
 
     const loading = () => {
@@ -52,17 +30,80 @@ const Profile = ({ navigation }) => {
         )
     }
 
+    const [orderConfirming, setOrderConfirming] = useState([]);
+    const [orderPacking, setOrderPacking] = useState([]);
+    const [orderDelivering, setOrderDelivering] = useState([]);
+    const [orderDelivered, setOrderDelivered] = useState([]);
+    const [orderRated, setOrderRated] = useState([]);
+    const [orderCanceled, setOrderCanceled] = useState([]);
+    const [orderReturned, setOrderReturned] = useState([]);
+    //console.log('Đã giao ', orderDelivered)
+    const classifyOrders = (orders) => {
+        const confirming = [];
+        const packing = [];
+        const delivering = [];
+        const delivered = [];
+        const rated = [];
+        const canceled = [];
+        const returned = [];
+
+        orders.forEach(order => {
+            const status = order.status.status;
+            switch (status) {
+                case "Đang thanh toán":
+                    confirming.push(order);
+                    break;
+                case "Đã thanh toán":
+                    confirming.push(order);
+                    break;
+                case "Đang chuẩn bị hàng":
+                    packing.push(order);
+                    break;
+                case "Đang giao hàng":
+                    delivering.push(order);
+                    break;
+                case "Đã giao":
+                    delivered.push(order);
+                    break;
+                case "Đã hủy":
+                    canceled.push(order);
+                    break;
+                default:
+                    break;
+            }
+        });
+
+        delivered.forEach(order => {
+            if (order.is_rating_comment) {
+                rated.push(order);
+            }
+        })
+
+        setOrderConfirming(confirming);
+        setOrderPacking(packing);
+        setOrderDelivering(delivering);
+        setOrderDelivered(delivered);
+        setOrderRated(rated);
+        setOrderCanceled(canceled);
+        setOrderReturned(returned);
+    };
+
     const fetchUserData = async () => {
         try {
-            const api = await authAPI();
-            const response = await api.get(endpoints.currentUser);
+            const axiosInstance = await authAPI();
+            const response = await axiosInstance.get(endpoints.currentUser);
 
             if (response.data) {
                 setUserData(response.data);
-                const dataConfirm = await api.get(endpoints.confirmationShop(response.data.id));
+                const dataConfirm = await axiosInstance.get(endpoints.confirmationShop(response.data.id));
                 setConfirmation(dataConfirm.data);
+                //console.log('dataConfirm.data ', dataConfirm.data)
 
-                console.log('dataConfirm.data ', dataConfirm.data)
+                // Đang thanh toán Đã thanh toán Đang chuẩn bị hàng Đang giao hàng Đã giao Đã hủy Đã trả
+                const dataOrder = await axiosInstance.get(endpoints.order(response.data.id));
+                setOrder(dataOrder.data);
+                //console.log('dataOrder.data ', dataOrder.data)
+                classifyOrders(dataOrder.data);
 
             } else {
                 console.error('Error: response.data is empty');
@@ -179,31 +220,44 @@ const Profile = ({ navigation }) => {
                     <ScrollView>
                         {/*Order*/}
                         <View style={styles.wrapOrder}>
-                            <View style={styles.wrapOrderTitle}>
+                            <TouchableOpacity
+                                style={styles.wrapOrderTitle}
+                                onPress={() => {
+                                    navigation.navigate('NavOrder', {
+                                        userData,
+                                        orderConfirming,
+                                        orderPacking,
+                                        orderDelivering,
+                                        orderDelivered,
+                                        orderCanceled,
+                                        orderReturned
+                                    })
+                                }}
+                            >
                                 <Text style={{ fontWeight: "500" }}>Order</Text>
                                 <Text style={{ color: "#3169f5", textDecorationLine: 'underline' }}>Order History</Text>
-                            </View>
+                            </TouchableOpacity>
                             <View style={styles.wrapOrderProcess}>
                                 <OrderProcessElement
                                     iconType={"Ionicons"}
                                     iconName={"wallet-outline"}
                                     text={"Confirming"}
-                                    value={numberConfirming} />
+                                    value={orderConfirming.length} />
                                 <OrderProcessElement
                                     iconType={"Feather"}
                                     iconName={"package"}
                                     text={"Packing"}
-                                    value={numberPacking} />
+                                    value={orderPacking.length} />
                                 <OrderProcessElement
                                     iconType={"Feather"}
                                     iconName={"truck"}
                                     text={"Delivering"}
-                                    value={numberDelivering} />
+                                    value={orderDelivering.length} />
                                 <OrderProcessElement
                                     iconType={"AntDesign"}
                                     iconName={"staro"}
                                     text={"Rating"}
-                                    value={numberDelivering} />
+                                    value={orderRated.length} />
                             </View>
                         </View>
 

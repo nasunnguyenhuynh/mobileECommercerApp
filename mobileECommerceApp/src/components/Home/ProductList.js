@@ -14,7 +14,6 @@ import FontAwesome from "react-native-vector-icons/FontAwesome"
 import AntDesign from "react-native-vector-icons/AntDesign"
 import api, { authAPI, endpoints } from "../../utils/api";
 import FormatCurrency from "../FormatCurrency";
-import apiProducts from "../apiProducts"
 
 
 const ProductList = () => {

@@ -52,6 +52,7 @@ const NavPage = ({ navigation }) => {
                 tabBarActiveTintColor: 'tomato',
                 tabBarInactiveTintColor: 'gray',
             })}
+            initialRouteName="Home"
         >
             <Tab.Screen
                 name="Home"

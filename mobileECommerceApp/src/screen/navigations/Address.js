@@ -21,7 +21,6 @@ import UpdateInfo from "../../components/Payment/UpdateInfo";
 
 
 function Address({ navigation, route }) {
-    // const navigation = useNavigation();
     const { isModalVisible, openModal, closeModal } = useModal();
     const [id, setId] = useState(route.params.id);
     const [username, setUsername] = useState(route.params.username);
@@ -123,7 +122,7 @@ function Address({ navigation, route }) {
                             phone={phone}
                         />
                     )}
-                    
+
                     {address.map(item => renderAddresses(item))}
 
 
@@ -170,13 +169,11 @@ const styles = StyleSheet.create({
         padding: 4,
     },
     wrapRadioBtn: {
-        // height: "100%",
     },
     wrapUserInfo: {
         marginLeft: 5,
         flex: 1,
     },
     wrapChangeAddress: {
-        // height: "100%",
     },
 })

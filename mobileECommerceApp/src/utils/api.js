@@ -1,7 +1,7 @@
 import axios from "axios";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const HOST = 'https://a4a7-14-169-22-64.ngrok-free.app'
+const HOST = 'https://b350-14-169-22-64.ngrok-free.app'
 
 
 export const endpoints = {

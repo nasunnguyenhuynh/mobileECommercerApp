@@ -18,13 +18,17 @@ const Shop = ({ name, logo, rating }) => {
     return (
         <View style={styles.containerShop}>
             <View style={styles.wrapShopTop}>
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <View style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    flex: 1,
+                }}>
                     <Image
                         source={{ uri: logo }}
                         style={styles.logoShop}
                     />
                     <View style={styles.wrapNameLocationShop}>
-                        <Text>{name}</Text>
+                        <Text>{name.length > 12 ? name.substring(0, 12) : name + ' ...'}</Text>
                         <View style={styles.locationShop}>
                             <Ionicons
                                 name={"location-outline"}
@@ -87,7 +91,6 @@ const styles = StyleSheet.create({
     locationShop: {
         flexDirection: "row",
         alignItems: "center",
-        justifyContent: "space-between",
     },
     btnViewShop: {
         borderWidth: 1,

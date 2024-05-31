@@ -26,7 +26,6 @@ function Overall({ navigation }) {
 
     const transportationNameMethod = 'Express';
     const methodPaymentName = 'VN PAY';
-    const productDiscount = 2000;
 
 
     // Loading
@@ -107,7 +106,7 @@ function Overall({ navigation }) {
     const [productPrice, setProductPrice] = useState(route.params.productPrice);
     const [quantity, setQuantity] = useState(route.params.quantity);
     const [colorId, setColorId] = useState(route.params.colorId);
-    const [color, setColor] = useState(route.params.color);
+    const [color, setColor] = useState(route.params.colorName);
     const [deliveryPrice, setDeliveryPrice] = useState(route.params.deliveryPrice);
 
     const totalProductPrice = productPrice * quantity;

@@ -48,11 +48,12 @@ function Address({ navigation, route }) {
         console.log('productPrice ', productPrice)
         console.log('quantity ', quantity)
         console.log('color ', color)
-        navigation.navigate('Payment', {
-            productPrice,
-            quantity,
-            color,
-        })
+        navigation.navigate('Overall')
+        // navigation.navigate('Overall', {
+        //     productPrice,
+        //     quantity,
+        //     color,
+        // })
     }
 
     const changeAddressDefault = async (userId, addressId) => {
@@ -122,7 +123,7 @@ function Address({ navigation, route }) {
                             phone={phone}
                         />
                     )}
-                    {/* map address lay address tu state*/}
+                    
                     {address.map(item => renderAddresses(item))}
 
 

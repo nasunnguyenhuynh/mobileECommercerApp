@@ -27,16 +27,6 @@ function NavProduct({ navigation, route }) {
 
                 }} // pass initialParams to SearchProduct
                 options={{
-                    // headerTitle: () => {
-                    //     return (
-                    //         <View style={styles.wrapHeaderHompage}>
-                    //             <TouchableOpacity onPress={() => navigation.goBack()}>
-                    //                 <AntDesign name="arrowleft" size={30} color="black" />
-                    //             </TouchableOpacity>
-                    //         </View>
-
-                    //     )
-                    // }
                 }}
             />
         </Stack.Navigator>
@@ -47,36 +37,4 @@ function NavProduct({ navigation, route }) {
 
 export default NavProduct;
 
-const styles = StyleSheet.create({
-    wrapHeaderHompage: {
-        // backgroundColor: "yellow",
-        flexDirection: "row",
-        alignItems: "center",
-        width: '100%',
-    },
-    inputContainer: {
-        backgroundColor: "#FFFFFF",
-        flexDirection: "row",
-        borderRadius: 20,
-        elevation: 10,
-        alignItems: "center",
-        height: "100%",
-        marginLeft: 10,
-        width: '70%',
-    },
-    inputIcon: {
-        marginLeft: 15,
-        marginRight: 5,
-    },
-    textInput: {
-        flex: 1,
-        marginRight: 15,
-    },
-    wrapFilter: {
-        marginLeft: 10,
-        // backgroundColor: "tomato",
-        height: 30,
-        flexDirection: "row",
-        alignItems: "center",
-    }
-})
+const styles = StyleSheet.create({})

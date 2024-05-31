@@ -1,11 +1,12 @@
-import { Image, StyleSheet, Text, View,} from "react-native";
+import { Image, StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome"
 import React from "react";
 import COLORS from "../COLORS";
 // import api, { enpoints } from "../../utils/api";
+import { useNavigation } from "@react-navigation/native";
 
-const PriceNameRatingSold = ({ price, name, rating, sold }) => {
-
+const PriceNameRatingSold = ({ productId, categoryId, price, name, rating, sold }) => {
+    const navigation = useNavigation();
     return (
         <View style={styles.containerPriceNameRatingSold}>
             <View style={styles.wrapProductName}>
@@ -16,27 +17,42 @@ const PriceNameRatingSold = ({ price, name, rating, sold }) => {
                         flexWrap: 'wrap',
                     }}>{name}</Text>
             </View>
-            <View style={styles.wrapProductPrice}>
-                <Text style={{ fontSize: 16, color: COLORS.darkRed }}>{price}đ</Text>
-            </View>
-            <View style={styles.wrapProductRatingSold}>
-                <View style={styles.wrapProductRating}>
-                    <FontAwesome
-                        name={"star"}
-                        size={14}
-                        color={COLORS.darkOrange}
-                    />
-                    <Text style={{ fontSize: 14, marginLeft: 5, }}>{Math.round(rating * 10) / 10}/5</Text>
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                <View>
+                    <View style={styles.wrapProductPrice}>
+                        <Text style={{ fontSize: 16, color: COLORS.darkRed }}>{price}đ</Text>
+                    </View>
+                    <View style={styles.wrapProductRatingSold}>
+                        <View style={styles.wrapProductRating}>
+                            <FontAwesome
+                                name={"star"}
+                                size={14}
+                                color={COLORS.darkOrange}
+                            />
+                            <Text style={{ fontSize: 14, marginLeft: 5, }}>{Math.round(rating * 10) / 10}/5</Text>
+                        </View>
+                        <View
+                            style={{
+                                marginHorizontal: 5,
+                                borderWidth: 0.2,
+                                borderColor: COLORS.lightGray,
+                                height: "80%",
+                            }}></View>
+                        <View style={styles.wrapProductSold}>
+                            <Text style={{ fontSize: 14, color: COLORS.lightGray }}>{sold} sold</Text>
+                        </View>
+                    </View>
                 </View>
-                <View
-                    style={{
-                        marginHorizontal: 5,
-                        borderWidth: 0.2,
-                        borderColor: COLORS.lightGray,
-                        height: "80%",
-                    }}></View>
-                <View style={styles.wrapProductSold}>
-                    <Text style={{ fontSize: 14, color: COLORS.lightGray }}>{sold} sold</Text>
+                <View >
+                    <TouchableOpacity style={styles.btnCompareProduct}
+                        onPress={() => { navigation.navigate('NavProduct', { productId, categoryId }) }}
+                    >
+                        <FontAwesome
+                            name={"magic"}
+                            size={24}
+                            style={{ color: '#9400d3' }}
+                        />
+                    </TouchableOpacity>
                 </View>
             </View>
 
@@ -70,4 +86,9 @@ const styles = StyleSheet.create({
     },
     wrapProductSold: {
     },
+    btnCompareProduct: {
+        padding: 6,
+        backgroundColor: '#f5f5f5',
+        borderRadius: 50,
+    }
 })

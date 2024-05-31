@@ -7,26 +7,36 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, useRoute } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-import SearchProduct from "../navigations/SearchProduct"
+import ProductComparision from "../navigations/ProductComparision"
 import ProductFilter from "../../components/Home/ProductFilter";
 import useModal from "../../components/useModal";
 import api, { authAPI, endpoints } from "../../utils/api";
 const Stack = createStackNavigator();
 
 
-function NavSearch({ navigation, route }) {
+function NavProduct({ navigation, route }) {
 
     return (
         <Stack.Navigator>
             <Stack.Screen
-                name="SearchProduct"
-                component={SearchProduct}
+                name="Compare Product"
+                component={ProductComparision}
                 initialParams={{
-                    search: route.params.search,
+                    productId: route.params.productId,
+                    categoryId: route.params.categoryId,
 
                 }} // pass initialParams to SearchProduct
                 options={{
-                    headerShown: false,
+                    // headerTitle: () => {
+                    //     return (
+                    //         <View style={styles.wrapHeaderHompage}>
+                    //             <TouchableOpacity onPress={() => navigation.goBack()}>
+                    //                 <AntDesign name="arrowleft" size={30} color="black" />
+                    //             </TouchableOpacity>
+                    //         </View>
+
+                    //     )
+                    // }
                 }}
             />
         </Stack.Navigator>
@@ -35,7 +45,7 @@ function NavSearch({ navigation, route }) {
 }
 
 
-export default NavSearch;
+export default NavProduct;
 
 const styles = StyleSheet.create({
     wrapHeaderHompage: {

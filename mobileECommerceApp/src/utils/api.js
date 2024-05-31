@@ -13,6 +13,8 @@ export const endpoints = {
     'basicSetupProfile': '/accounts/basic-setup-profile/',
 
     'categories': '/categories/',
+    'categories_id': (id) => `/categories/${id}/products/`,
+
     // /products/?page=1
     'products': '/products/',
     'products_id': (productId) => `/products/${productId}/`,
@@ -20,9 +22,9 @@ export const endpoints = {
     'products_pmn': (pmn) => `/products/?pmn=${pmn}`,
     'products_pmx': (pmx) => `/products/?pmx=${pmx}`,
 
-    'products_filter': (name,order,price) => `/products/?n=${name}&${order}&${price}`,
+    'products_filter': (name, order, price) => `/products/?n=${name}&${order}&${price}`,
 
-    
+
 
     'comment_rating': (productId) => `/products/${productId}/rating_comment/`,
     'parentComment': (productId) => `/products/${productId}/replyParentComment/`,

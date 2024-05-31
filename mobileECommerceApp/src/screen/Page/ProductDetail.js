@@ -37,12 +37,13 @@ const ProductDetail = () => {
     const route = useRoute();  // to get field from JSON
     // const fromHome = route.params?.fromHome || false;
     // console.log('data', route.params.data)
-    const { id, name: productName, price,
+    const { id: productId, name: productName, price, images,
         info: { origin, material, description, manufacture },
         colors,
         sell: { rating, sold_quantity, delivery_price }, // getTotalRatingProduct
         shop: { img, name: shopName, rated },
-        images } = route.params.data;
+        category: { id: categoryId },
+    } = route.params.data;
     const [showScrollTopButton, setShowScrollTopButton] = useState(false);
     const scrollViewRef = useRef(null);
 
@@ -71,6 +72,8 @@ const ProductDetail = () => {
                     <View style={{ marginVertical: 0 }}>
                         {/*price_name_rating_sold*/}
                         <PriceNameRatingSold
+                            productId={productId}
+                            categoryId={categoryId}
                             price={FormatCurrency(price)}
                             name={productName}
                             rating={rating}
@@ -94,7 +97,10 @@ const ProductDetail = () => {
                         />
 
                         {/*comments */}
-                        <CommentsRatings product_id={id} averageStarProductRating={rating} averageStarShopRating={rated} />
+                        <CommentsRatings
+                            product_id={productId}
+                            averageStarProductRating={rating}
+                            averageStarShopRating={rated} />
 
                         {/* <AddToCart/> */}
                         {isModalVisible && (
@@ -106,7 +112,7 @@ const ProductDetail = () => {
                                 shopName={shopName}
                                 productName={productName}
                                 deliveryPrice={delivery_price}
-                                productId={id}
+                                productId={productId}
                             />
                         )}
                     </View>

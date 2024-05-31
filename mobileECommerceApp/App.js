@@ -9,6 +9,7 @@ import LoginWithSms from "./src/screen/Auth/LoginWithSms"
 import Signup from "./src/screen/Auth/Signup"
 import NavPage from "./src/screen/navigations/NavPage";
 import NavSearch from "./src/screen/navigations/NavSearch";
+import NavProduct from "./src/screen/navigations/NavProduct";
 import NavRating from "./src/screen/navigations/NavRating";
 import NavExtension from "./src/screen/navigations/NavExtension";
 import NavPayment from "./src/screen/navigations/NavPayment";
@@ -30,7 +31,7 @@ export default function App() {
       {/*Only 1 NavContainer*/}
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="Login">
-        {/* <Stack.Navigator screenOptions={{ headerShown: false, }} initialRouteName="NavSearch"> */}
+          {/* <Stack.Navigator screenOptions={{ headerShown: false, }} initialRouteName="NavSearch"> */}
           <Stack.Screen name="Login" component={Login} options={{
             cardStyleInterpolator:
               CardStyleInterpolators.forHorizontalIOS,
@@ -42,6 +43,11 @@ export default function App() {
           }}
           />
           <Stack.Screen name="NavSearch" component={NavSearch} options={{
+            cardStyleInterpolator:
+              CardStyleInterpolators.forHorizontalIOS,
+          }}
+          />
+          <Stack.Screen name="NavProduct" component={NavProduct} options={{
             cardStyleInterpolator:
               CardStyleInterpolators.forHorizontalIOS,
           }}

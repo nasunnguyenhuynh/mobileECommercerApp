@@ -5,7 +5,7 @@ import {
     View,
     Image,
     TouchableOpacity,
-    Dimensions,
+    Dimensions, TextInput,
     SafeAreaView
 } from "react-native";
 import AntDesign from "react-native-vector-icons/AntDesign"
@@ -23,13 +23,49 @@ import COLORS from "../../components/COLORS";
 import api, { authAPI, endpoints } from "../../utils/api";
 import useModal from "../../components/useModal"
 import UpdateInfo from "../../components/Payment/UpdateInfo";
-
+import ProductFilter from "../../components/Home/ProductFilter";
 
 
 function SearchProduct({ navigation, route }) {
-    // const navigation = useNavigation();
-    console.log('sPro ', route.params.search)
+    // For header
+    const [search, setSearch] = useState(route.params.search || '');
+    const { isModalVisible, openModal, closeModal } = useModal();
 
+    const [filters, setFilters] = useState({
+        sortOrder: null,
+        priceOrder: null,
+        selectedCategories: [],
+    });
+
+    const handleApplyFilters = async (newFilters) => {
+        console.log('newFilters ', newFilters);
+        setFilters(newFilters);
+        setRefreshing(true);
+        try {
+            if (containsOnlyDigits(search)) {
+                const response = await api.get(`/products/?pmn=${search}&${newFilters.sortOrder}&${newFilters.priceOrder}&pmn=${newFilters.min}&pmx=${newFilters.max}`);
+                setData(response.data.results);
+                setRefreshing(false);
+            } else {
+                const response = await api.get(`/products/?n=${search}&${newFilters.sortOrder}&${newFilters.priceOrder}&pmn=${newFilters.min}&pmx=${newFilters.max}`);
+                setData(response.data.results);
+                setRefreshing(false);
+            }
+        } catch (error) {
+            console.error('Error fetching products:', error);
+            setRefreshing(false);
+        }
+
+    };
+
+    const fetchProductsfilter = async (filters) => {
+        // Your logic to fetch products based on filters
+        console.log('Applied Filters:', filters);
+        //const response = await api.get(`/products/?n=${search}&${filters.sortOrder}&${filters.priceOrder}`);
+
+    };
+
+    // For fetch
     function containsOnlyDigits(input) {
         return !isNaN(input);
     }
@@ -43,17 +79,16 @@ function SearchProduct({ navigation, route }) {
         fetchProducts();
     }, []);
 
-    const fetchProducts = async () => {
+    const fetchProducts = async () => { // Fetch searched products
         setRefreshing(true);
         try {
-            if (containsOnlyDigits(route.params.search)) {
-                const response = await api.get(endpoints.products_pmn(route.params.search));
-                setData(response.data.results); // response.data ->  response.data.results
+            if (containsOnlyDigits(search)) {
+                const response = await api.get(endpoints.products_pmn(search));
+                setData(response.data.results);
                 setRefreshing(false);
-                // console.log(response.data);
             } else {
-                const response = await api.get(endpoints.products_n(route.params.search));
-                setData(response.data.results); // response.data ->  response.data.results
+                const response = await api.get(endpoints.products_n(search));
+                setData(response.data.results);
                 setRefreshing(false);
             }
         } catch (error) {
@@ -122,6 +157,53 @@ function SearchProduct({ navigation, route }) {
 
     return (
         <>
+            {/* header */}
+            <View style={styles.wrapHeaderHompage}>
+                <TouchableOpacity onPress={() => navigation.goBack()}>
+                    <AntDesign name="arrowleft" size={30} color="black" />
+                </TouchableOpacity>
+                <View style={styles.inputContainer} >
+                    <TouchableOpacity
+                        onPress={() => fetchProducts()}>
+                        <Feather
+                            name={"search"}
+                            size={20}
+                            color={"#9A9A9A"}
+                            style={styles.inputIcon}
+                        />
+                    </TouchableOpacity>
+                    <TextInput
+                        style={styles.textInput}
+                        placeholder="Search"
+                        value={search}
+                        onChangeText={text => setSearch(text)}
+                    />
+                </View>
+                {/* Filter */}
+                <TouchableOpacity
+                    style={styles.wrapFilter}
+                    onPress={openModal}
+                >
+                    <AntDesign
+                        name={"filter"}
+                        size={30}
+                        color={"#000"}
+                        style={{}}
+                    />
+                    <View style={{ height: "100%", justifyContent: "flex-end" }}>
+                        <Text style={{ fontSize: 8 }}>
+                            Filter
+                        </Text>
+                    </View>
+                </TouchableOpacity>
+                {isModalVisible && (
+                    <ProductFilter
+                        visible={isModalVisible}
+                        closeModal={closeModal}
+                        onApplyFilters={handleApplyFilters}
+                    />
+                )}
+            </View>
             <FlatList
                 data={data}
                 renderItem={renderItemComponent}
@@ -187,4 +269,40 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+
+
+
+    // header
+    wrapHeaderHompage: {
+        // backgroundColor: "yellow",
+        marginTop: 50,
+        flexDirection: "row",
+        alignItems: "center",
+        width: '100%',
+    },
+    inputContainer: {
+        backgroundColor: "#FFFFFF",
+        flexDirection: "row",
+        borderRadius: 20,
+        elevation: 10,
+        alignItems: "center",
+        height: "100%",
+        marginLeft: 10,
+        width: '70%',
+    },
+    inputIcon: {
+        marginLeft: 15,
+        marginRight: 5,
+    },
+    textInput: {
+        flex: 1,
+        marginRight: 15,
+    },
+    wrapFilter: {
+        marginLeft: 10,
+        // backgroundColor: "tomato",
+        height: 30,
+        flexDirection: "row",
+        alignItems: "center",
+    }
 });

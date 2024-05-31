@@ -18,6 +18,11 @@ export const endpoints = {
     'products_id': (productId) => `/products/${productId}/`,
     'products_n': (name) => `/products/?n=${name}`,
     'products_pmn': (pmn) => `/products/?pmn=${pmn}`,
+    'products_pmx': (pmx) => `/products/?pmx=${pmx}`,
+
+    'products_filter': (name,order,price) => `/products/?n=${name}&${order}&${price}`,
+
+    
 
     'comment_rating': (productId) => `/products/${productId}/rating_comment/`,
     'parentComment': (productId) => `/products/${productId}/replyParentComment/`,

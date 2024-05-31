@@ -43,25 +43,32 @@ function SearchProduct({ navigation, route }) {
         setRefreshing(true);
         try {
             if (containsOnlyDigits(search)) {
-                const response = await api.get(`/products/?pmn=${search}&${newFilters.sortOrder}&${newFilters.priceOrder}&pmn=${newFilters.min}&pmx=${newFilters.max}`);
-                setData(response.data.results);
-                setRefreshing(false);
+                //selectedCategories
+                if (newFilters.selectedCategories.length === 1) {
+                    const response = await api.get(`/categories/${Number(newFilters.selectedCategories)}/products`);
+                    setData(response.data);
+                    setRefreshing(false);
+                } else {
+                    const response = await api.get(`/products/?pmn=${search}&${newFilters.sortOrder}&${newFilters.priceOrder}&pmn=${newFilters.min}&pmx=${newFilters.max}`);
+                    setData(response.data.results);
+                    setRefreshing(false);
+                }
+
             } else {
-                const response = await api.get(`/products/?n=${search}&${newFilters.sortOrder}&${newFilters.priceOrder}&pmn=${newFilters.min}&pmx=${newFilters.max}`);
-                setData(response.data.results);
-                setRefreshing(false);
+                if (newFilters.selectedCategories.length === 1) {
+                    const response = await api.get(`/categories/${Number(newFilters.selectedCategories)}/products`);
+                    setData(response.data);
+                    setRefreshing(false);
+                } else {
+                    const response = await api.get(`/products/?n=${search}&${newFilters.sortOrder}&${newFilters.priceOrder}&pmn=${newFilters.min}&pmx=${newFilters.max}`);
+                    setData(response.data.results);
+                    setRefreshing(false);
+                }
             }
         } catch (error) {
             console.error('Error fetching products:', error);
             setRefreshing(false);
         }
-
-    };
-
-    const fetchProductsfilter = async (filters) => {
-        // Your logic to fetch products based on filters
-        console.log('Applied Filters:', filters);
-        //const response = await api.get(`/products/?n=${search}&${filters.sortOrder}&${filters.priceOrder}`);
 
     };
 

@@ -20,9 +20,10 @@ const CommentsRatings = ({ product_id, averageStarProductRating, averageStarShop
     useEffect(() => {
         const fetchCommentsRatings = async () => {
             try {
-                const response = await authAPI.get(endpoints.comment_rating(product_id));
+                const axiosInstance = await authAPI();
+                const response = await axiosInstance.get(endpoints.comment_rating(product_id));
                 if (response.status === 200 && response.data) {
-                    // console.log('response.data ' , response.data) //get []
+                    //console.log('response.data ', response.data) //get []
                     setCommentsRatings(response.data);
                 }
             } catch (error) {

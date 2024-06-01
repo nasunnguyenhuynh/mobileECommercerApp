@@ -1,4 +1,4 @@
-import { Image, StyleSheet, Text, View, TextInput, TouchableOpacity, ActivityIndicator, ScrollView, FlatList, } from "react-native";
+import { Image, StyleSheet, Text, View, TextInput, TouchableOpacity, ActivityIndicator, ScrollView, RefreshControl, } from "react-native";
 import AntDesign from "react-native-vector-icons/AntDesign"
 import FontAwesome from "react-native-vector-icons/FontAwesome"
 import Feather from "react-native-vector-icons/Feather"
@@ -14,27 +14,13 @@ import COLORS from "../../components/COLORS";
 const Profile = ({ navigation }) => {
     const numberMessage = 12;
     const numberProductInCart = 27;
-    const numberConfirming = 2;
-    const numberPacking = 4;
-    const numberDelivering = 5;
-    const numberRating = 0;
 
-    const [userData, setUserData] = useState(null);
-    const [confirmation, setConfirmation] = useState('');
-    const [order, setOrder] = useState('');
-    const [loadingUserData, setLoadingUserData] = useState(true);
-
-    const loading = () => {
-        return (
-            <ActivityIndicator style={{ flex: 1, justifyContent: "center" }} size="small" color="#bc2b78" />
-        )
-    }
 
     const [orderConfirming, setOrderConfirming] = useState([]);
     const [orderPacking, setOrderPacking] = useState([]);
     const [orderDelivering, setOrderDelivering] = useState([]);
     const [orderDelivered, setOrderDelivered] = useState([]);
-    const [orderRated, setOrderRated] = useState([]);
+    const [orderNotRated, setOrderNotRated] = useState([]);
     const [orderCanceled, setOrderCanceled] = useState([]);
     const [orderReturned, setOrderReturned] = useState([]);
     //console.log('Đã giao ', orderDelivered)
@@ -43,7 +29,7 @@ const Profile = ({ navigation }) => {
         const packing = [];
         const delivering = [];
         const delivered = [];
-        const rated = [];
+        const notRated = [];
         const canceled = [];
         const returned = [];
 
@@ -74,8 +60,8 @@ const Profile = ({ navigation }) => {
         });
 
         delivered.forEach(order => {
-            if (order.is_rating_comment) {
-                rated.push(order);
+            if (!order.is_rating_comment) {
+                notRated.push(order);
             }
         })
 
@@ -83,10 +69,22 @@ const Profile = ({ navigation }) => {
         setOrderPacking(packing);
         setOrderDelivering(delivering);
         setOrderDelivered(delivered);
-        setOrderRated(rated);
+        setOrderNotRated(notRated);
         setOrderCanceled(canceled);
         setOrderReturned(returned);
     };
+
+    const [userData, setUserData] = useState(null);
+    const [confirmation, setConfirmation] = useState('');
+    const [order, setOrder] = useState('');
+    const [loadingUserData, setLoadingUserData] = useState(true);
+    const [refreshing, setRefreshing] = useState(false);
+
+    const loading = () => {
+        return (
+            <ActivityIndicator style={{ flex: 1, justifyContent: "center" }} size="small" color="#bc2b78" />
+        )
+    }
 
     const fetchUserData = async () => {
         try {
@@ -112,7 +110,13 @@ const Profile = ({ navigation }) => {
             console.error('Error fetching user data:', error);
         } finally {
             setLoadingUserData(false);
+            setRefreshing(false);
         }
+    };
+
+    const onRefresh = () => {
+        setRefreshing(true);
+        fetchUserData();
     };
 
     useEffect(() => {
@@ -217,7 +221,11 @@ const Profile = ({ navigation }) => {
                         </View>
 
                     </View>
-                    <ScrollView>
+                    <ScrollView
+                        refreshControl={
+                            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                        }
+                    >
                         {/*Order*/}
                         <View style={styles.wrapOrder}>
                             <TouchableOpacity
@@ -257,7 +265,7 @@ const Profile = ({ navigation }) => {
                                     iconType={"AntDesign"}
                                     iconName={"staro"}
                                     text={"Rating"}
-                                    value={orderRated.length} />
+                                    value={orderNotRated.length} />
                             </View>
                         </View>
 

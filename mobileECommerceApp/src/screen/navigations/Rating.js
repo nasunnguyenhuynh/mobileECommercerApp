@@ -13,11 +13,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 const Tab = createMaterialTopTabNavigator();
 function Rating({ navigation }) {
-    // Them navigatioin, route dc tao moi
     const route = useRoute();
-    // const { id, fromCommentsRatings, data, productRating, shopRating } = route.params;
-    // console.log('fromCommentsRatings_Rating:', fromCommentsRatings);
-    // console.log('data_Rating:', data);
 
     return (
         <Tab.Navigator
@@ -49,7 +45,7 @@ function Rating({ navigation }) {
                     fromCommentsRatings: route.params.fromCommentsRatings,
                     data: route.params.data,
                     shopRating: route.params.shopRating
-                }} // pass initialParams to ProductRating
+                }} // pass initialParams to ShopRating
                 options={{
                     tabBarLabel: 'Shop Ratings',
                 }}

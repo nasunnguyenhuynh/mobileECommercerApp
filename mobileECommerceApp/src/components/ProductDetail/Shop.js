@@ -28,7 +28,7 @@ const Shop = ({ name, logo, rating }) => {
                         style={styles.logoShop}
                     />
                     <View style={styles.wrapNameLocationShop}>
-                        <Text>{name.length > 12 ? name.substring(0, 12) : name + ' ...'}</Text>
+                        <Text>{name.length > 12 ? name.substring(0, 12) + '...' : name}</Text>
                         <View style={styles.locationShop}>
                             <Ionicons
                                 name={"location-outline"}

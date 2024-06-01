@@ -107,7 +107,11 @@ const OrderConfirming = ({ navigation, route }) => {
                         <View style={styles.orderFooter}>
                             <TouchableOpacity
                                 style={styles.btnPurchase}
-                                onPress={() => { handleRating(item) }}
+                                onPress={() => {
+                                    navigation.navigate('NavRating', {
+                                        fromCommentsRatings: false, order: item
+                                    })
+                                }}
                             >
                                 <Text style={{ color: "#fff" }}>Rating</Text>
                             </TouchableOpacity>

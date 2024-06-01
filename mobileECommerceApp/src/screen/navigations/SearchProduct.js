@@ -285,6 +285,7 @@ const styles = StyleSheet.create({
         marginTop: 50,
         flexDirection: "row",
         alignItems: "center",
+        justifyContent: 'center',
         width: '100%',
     },
     inputContainer: {
@@ -295,7 +296,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
         height: "100%",
         marginLeft: 10,
-        width: '70%',
+        width: '60%',
     },
     inputIcon: {
         marginLeft: 15,

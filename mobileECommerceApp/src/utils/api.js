@@ -15,8 +15,7 @@ export const endpoints = {
     'categories': '/categories/',
     'categories_id': (id) => `/categories/${id}/products/`,
 
-    // /products/?page=1
-    'products': '/products/',
+    'products': (page) => `/products/?page=${page}`,
     'products_id': (productId) => `/products/${productId}/`,
     'products_n': (name) => `/products/?n=${name}`,
     'products_pmn': (pmn) => `/products/?pmn=${pmn}`,

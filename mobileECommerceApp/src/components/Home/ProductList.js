@@ -23,23 +23,36 @@ const ProductList = () => {
     const scrollViewRef = useRef(null);
     const navigation = useNavigation();
 
-    useEffect(() => { //fetchProducts() called to update state when Flatlist mounted 1st
-        fetchProducts();
-    }, []);
+    const [page, setPage] = useState(1); // Current page
+    console.log('cur_page ', page)
+    const [hasMore, setHasMore] = useState(true); // Flag to check if there are more items to load
 
-    const fetchProducts = async () => {
-        setRefreshing(true);
+
+    useEffect(() => {
+        fetchProducts(page, refreshing);
+    }, [page]);
+
+    const fetchProducts = async (page, isRefreshing = false) => {
         try {
-            const response = await api.get('/products/');
-            setData(response.data.results); // response.data ->  response.data.results
-            setRefreshing(false);
-            // console.log(response.data);
+            const response = await api.get(endpoints.products(page));
+            if (response.data.results.length > 0) {
+                if (refreshing) { //setData for page 1
+                    setData(response.data.results);
+                }
+                else {
+                    setData(prevProducts => [...prevProducts, ...response.data.results]);
+                }
+                setHasMore(response.data.next !== null);
+            } else {
+                setHasMore(false); // No more items to load
+            }
         } catch (error) {
             console.error('Error fetching products:', error);
+        }
+        finally {
             setRefreshing(false);
         }
     };
-
     const fetchProduct = async (id) => {
         try {
             api.get(`/products/${id}`)
@@ -83,9 +96,12 @@ const ProductList = () => {
     };
 
     const handleRefresh = () => {
-        setRefreshing(false);
-        fetchProducts();
+        setData([]);
+        setRefreshing(true);
+        setPage(1);
+        fetchProducts(1);
     };
+
 
     const handleScroll = (event) => {
         const yOffset = event.nativeEvent.contentOffset.y;
@@ -107,6 +123,10 @@ const ProductList = () => {
                 numColumns={2}
                 refreshing={refreshing}
                 onRefresh={handleRefresh}
+
+                onEndReached={() => hasMore && setPage(prevPage => prevPage + 1)}
+                onEndReachedThreshold={0.5}
+
                 style={{ margin: 10 }}
                 onScroll={handleScroll}
                 scrollEventThrottle={16}

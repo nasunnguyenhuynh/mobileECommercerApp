@@ -4,6 +4,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 
 const ExtensionElement = ({ iconType, iconName, iconColor, text, containerStyle, textStyle }) => {
@@ -21,13 +22,15 @@ const ExtensionElement = ({ iconType, iconName, iconColor, text, containerStyle,
         case 'Ionicons':
             IconComponent = Ionicons;
             break;
+        case 'MaterialIcons':
+            IconComponent = MaterialIcons;
+            break;
         default:
             IconComponent = Ionicons; // Set a default icon component
     }
-    const isTextLong = text.length > 16; // Kiểm tra xem độ dài của văn bản có lớn hơn 15 ký tự không
+    const isTextLong = text.length > 16; 
 
     return (
-        // <TouchableOpacity style={[styles.extensionElement, containerStyle]}>
         <View style={[styles.extensionElement, containerStyle]}>
             <View>
                 <IconComponent
@@ -46,7 +49,6 @@ const ExtensionElement = ({ iconType, iconName, iconColor, text, containerStyle,
                 <Text style={[styles.text, textStyle]}>{text}</Text>
             )}
         </View>
-        // </TouchableOpacity>
     );
 }
 

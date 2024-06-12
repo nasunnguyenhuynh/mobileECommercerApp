@@ -24,7 +24,7 @@ const ProductList = () => {
     const navigation = useNavigation();
 
     const [page, setPage] = useState(1); // Current page
-    console.log('cur_page ', page)
+    //console.log('cur_page ', page)
     const [hasMore, setHasMore] = useState(true); // Flag to check if there are more items to load
 
 
@@ -127,10 +127,11 @@ const ProductList = () => {
                 onEndReached={() => hasMore && setPage(prevPage => prevPage + 1)}
                 onEndReachedThreshold={0.5}
 
-                style={{ margin: 10 }}
+                style={{ marginLeft: 5 }}
                 onScroll={handleScroll}
                 scrollEventThrottle={16}
                 ref={scrollViewRef}
+                showsVerticalScrollIndicator={false}
             />
             {showScrollTopButton && (
                 <TouchableOpacity style={styles.scrollTopButton} onPress={scrollToTop}>
@@ -143,10 +144,10 @@ const ProductList = () => {
 export default ProductList;
 
 const { width: screenWidth } = Dimensions.get('window');
-const containerWidth = screenWidth * 0.44; // 44% của width của thiết bị
+const containerWidth = screenWidth * 0.46 // 46% của width của thiết bị
 const styles = StyleSheet.create({
     containerProductCard: {
-        height: 240,
+        height: 250,
         margin: 5,
         width: containerWidth,
         backgroundColor: '#FFF',
@@ -169,7 +170,7 @@ const styles = StyleSheet.create({
         justifyContent: "space-between",
     },
     image: {
-        height: 140,
+        height: 150,
         width: "100%",
         borderRadius: 6,
     },

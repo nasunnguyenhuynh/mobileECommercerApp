@@ -6,7 +6,9 @@ import api, { authAPI, endpoints } from "../../utils/api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import styles from "../../styles/Auth/styles";
 
-const Signup = () => {
+const Signup = ({ route }) => {
+    const userInfo = route.params ? route.params.userInfo : null; //Get from gg login
+
     const [phone, setPhone] = useState("");
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -16,13 +18,22 @@ const Signup = () => {
     const navigateLoginpWithPassword = () => {
         navigation.navigate("Login")
     }
-    const navigateLoginpWithSms = () => {
+    const navigateLoginWithSms = () => {
         navigation.navigate("LoginWithSms")
     }
 
-    // POST with Axios
+    const handlePhoneChange = (text) => {
+        // Remove non-numeric characters
+        const numericText = text.replace(/[^0-9]/g, '');
+        // Limit to 10 characters
+        if (numericText.length <= 10) {
+            setPhone(numericText);
+        }
+    };
+
     const handleSignup = async () => {
-        // Kiểm tra các trường và đặt lỗi thích hợp
+        const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
         if (!phone && !password) {
             setError("This field cannot be empty");
             setFocusField('phone');
@@ -35,12 +46,12 @@ const Signup = () => {
             setError("This field cannot be empty");
             setFocusField('password');
             return;
+        } else if (!passwordRegex.test(password)) {
+            setError("Password must be at least 8 characters long and include at least one lowercase letter, one uppercase letter, one digit, and one special character");
+            setFocusField('password');
+            return;
         } else {
             try {
-                // Sử dụng authAPI để tạo instance axios có Authorization header
-                // const axiosInstance = await authAPI();
-
-
                 api.post('/accounts/signup/', {
                     phone: phone,
                     password: password
@@ -48,13 +59,14 @@ const Signup = () => {
                     .then(async response => {
                         if (response.status === 200 && response.data) {
                             console.log(response.data);
-                            navigation.navigate('VerifyOTP', { fromSignup: true });
+                            if (userInfo)
+                                navigation.navigate('VerifyOTP', { fromSignup: true, userInfo: userInfo });
+                            else
+                                navigation.navigate('VerifyOTP', { fromSignup: true });
                         }
                     })
                     .catch(error => {
                         setError("username or password is incorrect!");
-                        //So dien thoai da duoc su dung
-                        //Khong thoa yeu cau toi thieu password
                     });
             } catch (error) {
                 setError("An error occurred while logging in");
@@ -73,13 +85,23 @@ const Signup = () => {
             <View style={{ marginHorizontal: 40, marginVertical: 60 }}>
                 <View style={styles.formMain}>
                     <View style={styles.logoLoginContainer} >
-                        <Image
-                            source={require("../../assets/images/logo.jpg")}
-                            style={styles.logo}
-                        />
+                        {userInfo ?
+                            <Image
+                                source={{ uri: userInfo.user.photo }}
+                                style={styles.logo}
+                            /> :
+                            <Image
+                                source={require("../../assets/images/logo.jpg")}
+                                style={styles.logo}
+                            />
+                        }
                     </View>
                     <View style={styles.loginTextContainer}>
-                        <Text style={styles.loginText}>Signup</Text>
+                        {
+                            userInfo ?
+                                <Text style={styles.loginText}>Hi, {userInfo.user.name}!</Text> :
+                                <Text style={styles.loginText}>Signup</Text>
+                        }
                     </View>
                     <View style={styles.wrapInputContainer}>
                         <View style={styles.inputContainer} >
@@ -92,7 +114,9 @@ const Signup = () => {
                             <TextInput
                                 style={styles.textInput}
                                 placeholder="Phone"
-                                onChangeText={setPhone}
+                                keyboardType="numeric"
+                                maxLength={10}
+                                onChangeText={handlePhoneChange}
                                 value={phone}
                                 onFocus={() => handleFieldFocus('phone')}
                                 onBlur={() => setFocusField('')} />
@@ -113,17 +137,25 @@ const Signup = () => {
                                 onFocus={() => handleFieldFocus('password')}
                                 onBlur={() => setFocusField('')} />
                         </View>
-                        <View style={styles.textLinkContainer}>
-                            <TouchableOpacity onPress={navigateLoginpWithPassword}>
-                                <Text style={styles.loginWithPasswordText}>Login with password</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity onPress={navigateLoginpWithSms}>
-                                <Text style={styles.loginWithSMSText}>Login with SMS</Text>
-                            </TouchableOpacity>
-                        </View>
+                        {
+                            userInfo ?
+                                <></> :
+                                <View style={styles.textLinkContainer}>
+                                    <TouchableOpacity onPress={navigateLoginpWithPassword}>
+                                        <Text style={styles.loginWithPasswordText}>Login with password</Text>
+                                    </TouchableOpacity>
+                                    <TouchableOpacity onPress={navigateLoginWithSms}>
+                                        <Text style={styles.loginWithSMSText}>Login with SMS</Text>
+                                    </TouchableOpacity>
+                                </View>
+                        }
                         {error !== "" && <Text style={{ color: "red" }}>{error}</Text>}
                         <TouchableOpacity style={styles.loginButtonContainer} onPress={handleSignup}>
-                            <Text style={styles.loginButtonText}>Signup</Text>
+                            {
+                                userInfo ?
+                                    <Text style={styles.loginButtonText}>Next</Text> :
+                                    <Text style={styles.loginButtonText}>Signup</Text>
+                            }
                         </TouchableOpacity>
                     </View>
                 </View>

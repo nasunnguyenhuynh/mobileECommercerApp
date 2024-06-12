@@ -9,6 +9,7 @@ const VerifyOTP = () => {
     const navigation = useNavigation()
     const route = useRoute();
     const fromSignup = route.params?.fromSignup || false;
+    const userInfo = route.params?.userInfo || null;
 
     const [otp, setOtp] = useState('');
     const [error, setError] = useState('');
@@ -18,16 +19,12 @@ const VerifyOTP = () => {
             setError("This field cannot be empty");
             return;
         }
-        
+
         try {
-            // Nếu từ Signup điều hướng đến thực hiện yêu cầu GET trước khi POST
             if (fromSignup) {
                 api.get('/accounts/verify-otp/')
                     .then(async response => {
-                        console.log(response.data);
                         if (response.status === 200 && response.data) {
-                            console.log(response.data);
-                            // Kiểm tra nếu số điện thoại đã được sử dụng cho một tài khoản khác
                             if (response.data.success && response.data.phone && response.data.existing_user) {
                                 console.log(response.data);
                                 Alert.alert(
@@ -50,7 +47,6 @@ const VerifyOTP = () => {
                         }
                     })
                     .catch(error => {
-                        console.error('Verification failed:', error);
                         setError("OTP verification failed!");
                     });
             }
@@ -63,19 +59,21 @@ const VerifyOTP = () => {
         }
     };
 
-    // Hàm để thực hiện yêu cầu POST sau khi đã kiểm tra kết quả từ yêu cầu GET
     const postVerifyOTP = async () => {
         try {
-            
+
             const axiosInstance = await authAPI();
 
             axiosInstance.post('/accounts/verify-otp/', { otp: otp })
                 .then(async response => {
-                    
+
                     if (response.status === 200 && response.data) {
                         console.log(response.data);
                         if (response.data.success === "Continue to setup profile to finish") {
-                            navigation.navigate('BasicSetupProfile');
+                            if (userInfo)
+                                navigation.navigate('BasicSetupProfile', { userInfo: userInfo });
+                            else
+                                navigation.navigate('BasicSetupProfile');
                         } else {
                             await AsyncStorage.setItem('access_token', response.data.access_token);
                             navigation.navigate('NavPage');
@@ -83,7 +81,6 @@ const VerifyOTP = () => {
                     }
                 })
                 .catch(error => {
-                    console.error('Verification failed:', error);
                     setError("OTP verification failed!");
                 });
         } catch (error) {

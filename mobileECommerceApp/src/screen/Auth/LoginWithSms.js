@@ -18,6 +18,14 @@ const LoginWithSms = () => {
     const navigateLoginpWithPassword = () => {
         navigation.navigate("Login")
     }
+    const handlePhoneChange = (text) => {
+        // Remove non-numeric characters
+        const numericText = text.replace(/[^0-9]/g, '');
+        // Limit to 10 characters
+        if (numericText.length <= 10) {
+            setPhone(numericText);
+        }
+    };
     const handleSendOTP = async () => {
         if (!phone) {
             setError("This field cannot be empty");
@@ -66,9 +74,10 @@ const LoginWithSms = () => {
                             <TextInput
                                 style={styles.textInput}
                                 placeholder="Phone"
-                                onChangeText={text => setPhone(text)}
-                                value={phone}
-                            />
+                                keyboardType="numeric"
+                                maxLength={10}
+                                onChangeText={handlePhoneChange}
+                                value={phone} />
                         </View>
                         <View style={styles.textLinkContainer}>
                             <TouchableOpacity onPress={navigateLoginpWithPassword}>

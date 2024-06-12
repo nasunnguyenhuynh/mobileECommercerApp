@@ -4,7 +4,6 @@ import AntDesign from "react-native-vector-icons/AntDesign"
 
 const Description = ({ description }) => {
     const [opened, setOpened] = useState(false);
-    // const contentWidth = useWindowDimensions().width;
 
     // Supply animation for old android device
     if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {

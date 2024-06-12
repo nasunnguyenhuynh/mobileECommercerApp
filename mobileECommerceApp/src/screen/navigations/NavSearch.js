@@ -39,7 +39,6 @@ export default NavSearch;
 
 const styles = StyleSheet.create({
     wrapHeaderHompage: {
-        // backgroundColor: "yellow",
         flexDirection: "row",
         alignItems: "center",
         width: '100%',
@@ -64,7 +63,6 @@ const styles = StyleSheet.create({
     },
     wrapFilter: {
         marginLeft: 10,
-        // backgroundColor: "tomato",
         height: 30,
         flexDirection: "row",
         alignItems: "center",

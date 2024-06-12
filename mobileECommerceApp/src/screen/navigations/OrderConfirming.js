@@ -3,7 +3,7 @@ import { View, Text, Image, TouchableOpacity, StyleSheet, FlatList } from 'react
 import FormatCurrency from '../../components/FormatCurrency';
 import { authAPI, endpoints } from "../../utils/api";
 import COLORS from '../../components/COLORS';
-// Xu ly data rong
+// <Handle blank data>
 const OrderConfirming = ({ navigation, route }) => {
     //console.log('userData ', route.params.userData)
     const [order, setOrder] = useState(route.params.orderConfirming);

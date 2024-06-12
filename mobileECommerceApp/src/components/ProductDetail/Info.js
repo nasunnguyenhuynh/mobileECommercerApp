@@ -25,7 +25,6 @@ const Info = ({ origin, material, manufacture }) => {
         { title: 'Origin', value: origin },
         { title: 'Material', value: material },
         { title: 'Manufacture', value: manufacture },
-        // { title: 'Description', value: data.info.description },
     ];
 
     function renderModal() {
@@ -79,16 +78,8 @@ const Info = ({ origin, material, manufacture }) => {
                                 data={renderItemData}
                                 renderItem={renderItem}
                                 keyExtractor={(item, index) => index.toString()}
-                                numColumns={1} // Hiển thị 2 cột
+                                numColumns={1}
                                 style={{}}
-
-                            // ItemSeparatorComponent={this.ItemSeparator}
-                            // refreshing={this.state.refreshing}
-                            // onRefresh={this.handleRefresh}
-
-                            // onScroll={this.handleScroll}
-                            // scrollEventThrottle={16}
-                            // ref={(ref) => { this.scrollViewRef = ref; }}
                             />
                         </View>
                     </View>

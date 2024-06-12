@@ -48,11 +48,6 @@ function Address({ navigation, route }) {
         console.log('quantity ', quantity)
         console.log('color ', color)
         navigation.navigate('Overall')
-        // navigation.navigate('Overall', {
-        //     productPrice,
-        //     quantity,
-        //     color,
-        // })
     }
 
     const changeAddressDefault = async (userId, addressId) => {

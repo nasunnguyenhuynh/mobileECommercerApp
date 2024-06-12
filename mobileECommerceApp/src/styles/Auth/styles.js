@@ -4,7 +4,6 @@ export default StyleSheet.create({
     container: {
         backgroundColor: "#F5F5F5",
         flex: 1,
-        // justifyContent: "center"
     },
     logoLoginContainer: {
         flexDirection: "row",
@@ -14,6 +13,12 @@ export default StyleSheet.create({
         width: 160,
         height: 160,
         borderRadius: 100
+    },
+    changeLogo: {
+        position: 'absolute', bottom: 0, right: '30%',
+        backgroundColor: 'powderblue', width: 40, height: 40, borderRadius: 100,
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     loginTextContainer: {
         marginTop: 30,

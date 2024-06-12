@@ -6,9 +6,11 @@ export const endpoints = {
     'currentUser': '/users/current-user/', //GET, PATCH
     'login': '/accounts/login/',
     'loginWithSms': '/accounts/login-with-sms/',
+    'loginWithGoogle': '/accounts/login-with-google/',
     'signup': '/accounts/signup/',
     'verifyOTP': '/accounts/verify-otp/',
     'basicSetupProfile': '/accounts/basic-setup-profile/',
+    'logout': '/accounts/logout/',
 
     'categories': '/categories/',
     'categories_id': (id) => `/categories/${id}/products/`,

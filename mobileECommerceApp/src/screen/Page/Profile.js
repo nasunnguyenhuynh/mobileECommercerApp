@@ -10,6 +10,11 @@ import { useNavigation } from "@react-navigation/native";
 import OrderProcessElement from "../../components/Profile/OrderProcessElement";
 import ExtensionElement from "../../components/Profile/ExtensionElement";
 import COLORS from "../../components/COLORS";
+import {
+    GoogleSignin,
+    GoogleSigninButton,
+    statusCodes,
+} from "@react-native-google-signin/google-signin";
 
 const Profile = ({ navigation }) => {
     const numberMessage = 12;
@@ -23,7 +28,7 @@ const Profile = ({ navigation }) => {
     const [orderNotRated, setOrderNotRated] = useState([]);
     const [orderCanceled, setOrderCanceled] = useState([]);
     const [orderReturned, setOrderReturned] = useState([]);
-    //console.log('Đã giao ', orderDelivered)
+
     const classifyOrders = (orders) => {
         const confirming = [];
         const packing = [];
@@ -97,7 +102,6 @@ const Profile = ({ navigation }) => {
                 setConfirmation(dataConfirm.data);
                 //console.log('dataConfirm.data ', dataConfirm.data)
 
-                // Đang thanh toán Đã thanh toán Đang chuẩn bị hàng Đang giao hàng Đã giao Đã hủy Đã trả
                 const dataOrder = await axiosInstance.get(endpoints.order(response.data.id));
                 setOrder(dataOrder.data);
                 //console.log('dataOrder.data ', dataOrder.data)
@@ -123,7 +127,25 @@ const Profile = ({ navigation }) => {
         fetchUserData();
     }, []);
 
-    // console.log('confirmation ', confirmation[0].id) --> Loi in ra
+    const handleLogout = async () => {
+        if (GoogleSignin.getCurrentUser()) {
+            await GoogleSignin.signOut();
+            navigation.navigate('Login');
+        }
+        else {
+            const axiosInstance = await authAPI();
+            axiosInstance.post(endpoints.logout)
+                .then(async response => {
+                    if (response.status === 200 && response.data) {
+                        console.log(response.data);
+                        navigation.navigate('Login');
+                    }
+                })
+                .catch(error => {
+                    console.error('Logout failed:', error);
+                });
+        }
+    }
 
     return (
         <View style={styles.container}>
@@ -371,6 +393,24 @@ const Profile = ({ navigation }) => {
                             </View>
                         </View>
 
+                        {/*Short cut*/}
+                        <View style={styles.wrapSupport}>
+                            <View style={styles.wrapSupportTitle}>
+                                <Text style={{ fontWeight: "500" }}>Short cut</Text>
+                            </View>
+                            <View style={styles.wrapSupportComponent}>
+                                <TouchableOpacity onPress={handleLogout}>
+                                    <ExtensionElement
+                                        iconType={"MaterialIcons"}
+                                        iconColor={COLORS.blueSky}
+                                        iconName={"logout"}
+                                        text={"Logout"}
+                                        containerStyle={{ width: "100%", marginBottom: 8, borderColor: COLORS.blueSky }}
+                                        textStyle={{ fontSize: 14, fontWeight: "500", color: COLORS.blueSky }} />
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+
                     </ScrollView>
                 </>
             ) : (
@@ -391,7 +431,6 @@ const styles = StyleSheet.create({
     wrapHeaderProfile: {
         flexDirection: "row",
         alignItems: "center",
-        // backgroundColor: "blue"
     },
     wrapUserInfo: {
         flexDirection: "row",
@@ -428,7 +467,6 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         alignItems: "center",
         flex: 1,
-        // backgroundColor: "tomato",
         justifyContent: "space-between",
     },
     wrapOrder: {

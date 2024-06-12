@@ -7,6 +7,12 @@ import React, { useState } from 'react';
 import api, { authAPI, endpoints } from "../../utils/api";
 import styles from "../../styles/Auth/styles";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {
+    GoogleSignin,
+    GoogleSigninButton,
+    statusCodes,
+} from "@react-native-google-signin/google-signin";
+import { WEB_CLIENT_ID } from '@env'
 
 
 const Login = () => {
@@ -23,9 +29,17 @@ const Login = () => {
         navigation.navigate("LoginWithSms")
     }
 
+    const handlePhoneChange = (text) => {
+        // Remove non-numeric characters
+        const numericText = text.replace(/[^0-9]/g, '');
+        // Limit to 10 characters
+        if (numericText.length <= 10) {
+            setPhone(numericText);
+        }
+    };
+
     // POST with Axios
     const handleLogin = async () => {
-        // Kiểm tra các trường và đặt lỗi thích hợp
         if (!phone && !password) {
             setError("This field cannot be empty");
             setFocusField('phone');
@@ -40,7 +54,6 @@ const Login = () => {
             return;
         } else {
             try {
-                // Sử dụng authAPI để tạo instance axios có Authorization header
                 const axiosInstance = await authAPI();
 
                 axiosInstance.post('/accounts/login/', {
@@ -57,11 +70,9 @@ const Login = () => {
                             navigation.navigate('Login');
                     })
                     .catch(error => {
-                        // console.error('Login failed:', error);
                         setError("username or password is incorrect!");
                     });
             } catch (error) {
-                // console.error('Error setting up API client:', error);
                 setError("An error occurred while logging in");
             }
         }
@@ -72,6 +83,37 @@ const Login = () => {
             setError('');
         }
     };
+
+    GoogleSignin.configure({
+        webClientId: WEB_CLIENT_ID,
+    })
+
+    const handleLoginWithGoogle = async () => {
+        try {
+            await GoogleSignin.hasPlayServices();
+            const userInfo = await GoogleSignin.signIn();
+            api.post(endpoints.loginWithGoogle, {
+                ...userInfo
+            })
+                .then(async response => {
+                    if (response.status === 200 && response.data) {
+                        if (response.data.success === 'Login successfully') { //Email was used
+                            await AsyncStorage.setItem('access_token', response.data.access_token);
+                            navigation.navigate('NavPage');
+                        }
+                        else
+                            navigation.navigate("Signup", { userInfo: userInfo, loginWithGoogle: true })
+                    }
+                })
+                .catch(error => {
+                    console.error('Login failed:', error);
+                    setError("An error occurred while logging");
+                });
+        } catch (error) {
+            console.error('Login failed:', error);
+            setError("An error occurred while logging with Google");
+        }
+    }
 
     return (
         <View style={styles.container}>
@@ -96,12 +138,13 @@ const Login = () => {
                             />
                             <TextInput
                                 style={styles.textInput}
-                                placeholder="Phone/Gmail/Username"
-                                onChangeText={setPhone}
+                                placeholder="Phone"
+                                keyboardType="numeric"
+                                maxLength={10}
+                                onChangeText={handlePhoneChange}
                                 value={phone}
                                 onFocus={() => handleFieldFocus('phone')}
-                                onBlur={() => setFocusField('')}
-                            />
+                                onBlur={() => setFocusField('')} />
                         </View>
                         <View style={styles.inputContainer} >
                             <FontAwesome
@@ -170,12 +213,14 @@ const Login = () => {
                         color={"black"}
                         style={styles.socialIcon}
                     />
-                    <AntDesign
-                        name={"google"}
-                        size={30}
-                        color={"red"}
-                        style={styles.socialIcon}
-                    />
+                    <TouchableOpacity onPress={handleLoginWithGoogle}>
+                        <AntDesign
+                            name={"google"}
+                            size={30}
+                            color={"red"}
+                            style={styles.socialIcon}
+                        />
+                    </TouchableOpacity>
                 </View>
             </View>
         </View >

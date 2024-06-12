@@ -2,7 +2,6 @@ import { Image, StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import FontAwesome from "react-native-vector-icons/FontAwesome"
 import React from "react";
 import COLORS from "../COLORS";
-// import api, { enpoints } from "../../utils/api";
 import { useNavigation } from "@react-navigation/native";
 
 const PriceNameRatingSold = ({ productId, categoryId, price, name, rating, sold }) => {

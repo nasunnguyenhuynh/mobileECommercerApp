@@ -4,7 +4,6 @@ import AntDesign from "react-native-vector-icons/AntDesign"
 import Feather from "react-native-vector-icons/Feather"
 import Ionicons from "react-native-vector-icons/Ionicons"
 import React, { useEffect, useState, useRef } from "react";
-// import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Searchbar } from 'react-native-paper';
 import { Badge } from "react-native-elements";
 import api, { enpoints } from "../../utils/api";
@@ -19,7 +18,7 @@ const Home = ({ navigation, route }) => {
     return (
         <View style={styles.container}>
             {/* Wrap_Top_Hompage */}
-            <View style={{ marginHorizontal: 10, marginTop: 40 }}>
+            <View style={{ marginTop: 40 }}>
                 <View style={styles.wrapHeaderHompage}>
                     {/* Search */}
                     <View style={styles.inputContainer} >
@@ -115,6 +114,7 @@ const styles = StyleSheet.create({
     wrapHeaderHompage: {
         flexDirection: "row",
         alignItems: "center",
+        marginHorizontal: 10,
     },
     inputContainer: {
         backgroundColor: "#FFFFFF",

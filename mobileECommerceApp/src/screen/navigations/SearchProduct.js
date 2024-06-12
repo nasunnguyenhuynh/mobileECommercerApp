@@ -235,7 +235,7 @@ function SearchProduct({ navigation, route }) {
 export default SearchProduct;
 
 const { width: screenWidth } = Dimensions.get('window');
-const containerWidth = screenWidth * 0.44; // 44% của width của thiết bị
+const containerWidth = screenWidth * 0.44; 
 const styles = StyleSheet.create({
     containerProductCard: {
         height: 240,

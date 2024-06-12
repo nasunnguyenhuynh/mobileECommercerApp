@@ -9,7 +9,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Searchbar } from 'react-native-paper';
 import { Badge } from "react-native-elements";
 import COLORS from "../COLORS";
-// import api, { enpoints } from "../../utils/api";
 
 const Shop = ({ name, logo, rating }) => {
     const locationShop = "TP.Hồ Chí Minh";

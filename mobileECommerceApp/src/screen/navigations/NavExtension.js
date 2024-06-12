@@ -7,9 +7,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, useRoute } from '@react-navigation/native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
-// import CommentsRatings from "../../components/ProductDetail/CommentsRatings";
-// import ProductRating from "../Page/ProductRating";
-// import ShopRating from "../Page/ShopRating";
 import Extension from "../navigations/Extension"
 
 const Stack = createStackNavigator();
@@ -17,7 +14,6 @@ const Stack = createStackNavigator();
 function NavExtension({ navigation }) {
     const route = useRoute();
     const { userId, statusId } = route.params;
-    // console.log('userId', userId);
 
     return (
         <Stack.Navigator>

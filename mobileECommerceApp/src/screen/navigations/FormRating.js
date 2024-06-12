@@ -83,7 +83,7 @@ const FormRating = ({ navigation, route }) => {
         }
     }
 
-    const starArray = Array.from({ length: 5 }, (_, index) => index + 1); // Tạo mảng ngôi sao từ 1 đến 5
+    const starArray = Array.from({ length: 5 }, (_, index) => index + 1); // Create star_arr 1_5
     return (
         <>
             <ScrollView>

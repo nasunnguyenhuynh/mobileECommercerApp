@@ -38,7 +38,7 @@ function SearchProduct({ navigation, route }) {
     });
 
     const handleApplyFilters = async (newFilters) => {
-        console.log('newFilters ', newFilters);
+        //console.log('newFilters ', newFilters);
         setFilters(newFilters);
         setRefreshing(true);
         try {

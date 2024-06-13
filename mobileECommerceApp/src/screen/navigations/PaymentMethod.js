@@ -11,7 +11,7 @@ import VNPAY from "./VNPAY";
 const Stack = createStackNavigator();
 
 function PaymentMethod({ navigation }) {
-    console.log('PaymentMethod')
+    //console.log('PaymentMethod')
     const route = useRoute();
 
     return (

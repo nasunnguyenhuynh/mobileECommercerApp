@@ -14,9 +14,9 @@ const Stack = createStackNavigator();
 
 function NavAddress({ navigation }) {
     const route = useRoute();
-    useEffect(() => {
-        console.log('NavAddress params:', route.params);
-    }, [route.params]);  //navigation
+    // useEffect(() => {
+    //     console.log('NavAddress params:', route.params);
+    // }, [route.params]);  //navigation
 
     return (
         <Stack.Navigator>

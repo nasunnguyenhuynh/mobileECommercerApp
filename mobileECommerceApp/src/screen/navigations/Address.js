@@ -41,12 +41,12 @@ function Address({ navigation, route }) {
                 return { ...item, default: false };
             }
         })
-        console.log('updatedAddresses ', updatedAddresses)
+        // console.log('updatedAddresses ', updatedAddresses)
         setAddress(updatedAddresses)
         //Edit for suitable with key in NavAddress.js
-        console.log('productPrice ', productPrice)
-        console.log('quantity ', quantity)
-        console.log('color ', color)
+        // console.log('productPrice ', productPrice)
+        // console.log('quantity ', quantity)
+        // console.log('color ', color)
         navigation.navigate('Overall')
     }
 
@@ -55,7 +55,7 @@ function Address({ navigation, route }) {
             const axiosInstance = await authAPI();
             const response = await axiosInstance.patch(endpoints.addressDefault(userId, addressId));
             if (response.status === 200 && response.data) {
-                console.log('response.data patched', response.data);
+                // console.log('response.data patched', response.data);
                 refreshAddress(response.data);
             }
 

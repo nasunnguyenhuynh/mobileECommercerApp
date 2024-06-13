@@ -137,7 +137,7 @@ const Profile = ({ navigation }) => {
             axiosInstance.post(endpoints.logout)
                 .then(async response => {
                     if (response.status === 200 && response.data) {
-                        console.log(response.data);
+                        // console.log(response.data);
                         navigation.navigate('Login');
                     }
                 })

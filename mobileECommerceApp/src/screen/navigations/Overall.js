@@ -52,7 +52,7 @@ function Overall({ navigation }) {
             const axiosInstance = await authAPI();
             const user = await axiosInstance.get(endpoints.currentUser);
             if (user.data) { // fetch current user -> id, username, fname, lname, phone
-                console.log('currentUser ', user.data)
+                // console.log('currentUser ', user.data)
 
                 setId(user.data.id)
                 setUsername(user.data.username)
@@ -124,14 +124,14 @@ function Overall({ navigation }) {
                 product_color_id: colorId,
             });
             if (createOrder.status === 201 && createOrder.data) {
-                console.log('createOrder.data ', createOrder.data)
+                //console.log('createOrder.data ', createOrder.data)
                 try { //rerdirect to VNPAY
                     const response = await axiosInstance.post(endpoints.payment, {
                         order_ecommerce_id: createOrder.data.order.id,
                         amount: createOrder.data.order.final_amount,
                     });
                     if (response.status === 200 && response.data.url) {
-                        console.log('response.data.url ', response.data.url)
+                        //console.log('response.data.url ', response.data.url)
                         navigation.navigate('PaymentMethod', { url: response.data.url });
                     } else {
                         console.error('Error: URL not found in response');
@@ -196,25 +196,27 @@ function Overall({ navigation }) {
                                                 }}>here</Text>
                                             </TouchableOpacity>
                                         </> :
-                                        (addresses.map(item => renderAddresses(item)))
+                                        <>
+                                            {addresses.map(item => renderAddresses(item))}
+                                            <TouchableOpacity
+                                                onPress={() =>
+                                                    navigation.navigate('NavAddress', {
+                                                        id,
+                                                        username,
+                                                        firstName,
+                                                        lastName,
+                                                        addresses,
+                                                        phone,
+                                                        productPrice,
+                                                        quantity,
+                                                        color,
+                                                    }
+                                                    )}
+                                            >
+                                                <Text style={{ color: COLORS.blueSky, fontSize: 12, }}>Change</Text>
+                                            </TouchableOpacity>
+                                        </>
                             }
-                            <TouchableOpacity
-                                onPress={() =>
-                                    navigation.navigate('NavAddress', {
-                                        id,
-                                        username,
-                                        firstName,
-                                        lastName,
-                                        addresses,
-                                        phone,
-                                        productPrice,
-                                        quantity,
-                                        color,
-                                    }
-                                    )}
-                            >
-                                <Text style={{ color: COLORS.blueSky, fontSize: 12, }}>Change</Text>
-                            </TouchableOpacity>
                         </View>
 
                         {/* Product */}

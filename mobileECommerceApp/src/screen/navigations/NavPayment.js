@@ -14,7 +14,7 @@ import PaymentMethod from "../navigations/PaymentMethod"
 const Stack = createStackNavigator();
 
 function NavPayment({ navigation }) {
-    console.log('NavPayment')
+    //console.log('NavPayment')
     const route = useRoute();
 
     return (

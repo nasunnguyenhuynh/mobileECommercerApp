@@ -44,7 +44,7 @@ const OrderConfirming = ({ navigation, route }) => {
                 amount: item.final_amount,
             });
             if (response.status === 200 && response.data.url) {
-                console.log('response.data.url ', response.data.url)
+                //console.log('response.data.url ', response.data.url)
                 navigation.navigate('PaymentMethod', { url: response.data.url });
             } else {
                 console.error('Error: URL not found in response');

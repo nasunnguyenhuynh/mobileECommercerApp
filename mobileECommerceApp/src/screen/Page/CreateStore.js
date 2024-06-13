@@ -13,7 +13,7 @@ import ExtensionElement from "../../components/Profile/ExtensionElement";
 
 const CreateStore = ({ route }) => {
     const { userId } = route.params;
-    console.log('userId:', userId);
+    // console.log('userId:', userId);
     const [username, setUsername] = useState("");
     const [image, setImage] = useState('');
     const [error, setError] = useState('');
@@ -31,7 +31,7 @@ const CreateStore = ({ route }) => {
             try {
                 setLoading(true);
                 const axiosInstance = await authAPI();
-                console.log('image', image)
+                // console.log('image', image)
 
                 // Trích xuất tên và loại của tệp hình ảnh từ URI
                 const filename = image.split('/').pop(); // Lấy phần cuối cùng của URI là tên tệp
@@ -52,13 +52,13 @@ const CreateStore = ({ route }) => {
                 })
                     .then(async response => {
                         if (response.status === 201 && response.data) {
-                            console.log('response: ', response.data);
+                            // console.log('response: ', response.data);
                             //Hien thi gui di thanh cong -> Chinh button createShop --> Quay ve Profile
                             navigation.navigate('NavPage');
                         }
                     })
                     .catch(error => {
-                        console.log('error: ', error);
+                        // console.log('error: ', error);
                         setError("An error occurred during sending, please try again");
                         setLoading(false);
                     });
@@ -79,7 +79,7 @@ const CreateStore = ({ route }) => {
             quality: 1,
         });
 
-        console.log('result', result);
+        // console.log('result', result);
 
         if (!result.canceled) { //Nếu qt chọn ảnh ko bị hủy thì gán uri ảnh cho image
             setImage(result.assets[0].uri);

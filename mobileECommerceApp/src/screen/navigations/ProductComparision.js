@@ -50,7 +50,7 @@ function ProductComparision({ navigation, route }) {
             api.get(`/products/${id}`)
                 .then(async response => {
                     if (response.status === 200 && response.data) {
-                        console.log('data to ProductDetail : ', response.data);
+                        //console.log('data to ProductDetail : ', response.data);
                         if (!pro1) {
                             setPro1(response.data)
                         }
@@ -76,7 +76,7 @@ function ProductComparision({ navigation, route }) {
     const [selectedProduct2, setSelectedProduct2] = useState(null);
 
     handleProductPress = (productId) => {
-        console.log('Pressed product ID:', productId);
+        //console.log('Pressed product ID:', productId);
         if (selectedProduct1 === productId) {
             setPro1('')
             setSelectedProduct1(null);

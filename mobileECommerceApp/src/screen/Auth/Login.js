@@ -85,7 +85,7 @@ const Login = () => {
     };
 
     GoogleSignin.configure({
-        webClientId: WEB_CLIENT_ID,
+        webClientId: '94351095163-3mijcspelts6uk77oi8051viqvmg6mv9.apps.googleusercontent.com',
     })
 
     const handleLoginWithGoogle = async () => {

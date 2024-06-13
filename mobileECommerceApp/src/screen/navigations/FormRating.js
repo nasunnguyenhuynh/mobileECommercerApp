@@ -51,10 +51,10 @@ const FormRating = ({ navigation, route }) => {
     const handleSend = async () => {
         setLoading(true);
         if (!productStars || !shopStars || !shopComment || !productComment) {
-            console.log('productStars ', productStars)
-            console.log('shopStars ', shopStars)
-            console.log('shopComment ', shopComment)
-            console.log('productComment ', productComment)
+            // console.log('productStars ', productStars)
+            // console.log('shopStars ', shopStars)
+            // console.log('shopComment ', shopComment)
+            // console.log('productComment ', productComment)
             setError("Please leave your rating and comment for shop and product");
             setLoading(false);
         } else {
@@ -70,7 +70,7 @@ const FormRating = ({ navigation, route }) => {
             })
                 .then(async response => {
                     if (response.status === 201 && response.data) {
-                        console.log('response.data ', response.data);
+                        // console.log('response.data ', response.data);
                         setLoading(false);
                         navigation.navigate('NavPage');
                     }

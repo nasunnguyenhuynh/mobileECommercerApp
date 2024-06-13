@@ -30,11 +30,11 @@ function UpdateInfo({ visible, closeModal, id, username, firstName, lastName, ad
     const [error, setError] = useState('');
     const [focusField, setFocusField] = useState('');
     const [loading, setLoading] = useState(false);
-    console.log('visible_tocard ', visible)
-    console.log('closeModal_tocard', closeModal)
-    console.log('phone', phone)
-    console.log('username ', username)
-    console.log('newAddress ', newAddress)
+    // console.log('visible_tocard ', visible)
+    // console.log('closeModal_tocard', closeModal)
+    // console.log('phone', phone)
+    // console.log('username ', username)
+    // console.log('newAddress ', newAddress)
     // Check visible
     if (!visible) return null;
 
@@ -76,10 +76,10 @@ function UpdateInfo({ visible, closeModal, id, username, firstName, lastName, ad
                 });
 
                 if (userResponse.status === 200 && userResponse.data) {
-                    console.log('PATCH user\'s info ', userResponse.data);
+                    // console.log('PATCH user\'s info ', userResponse.data);
 
                     try {
-                        console.log('userID to update address ', id)
+                        // console.log('userID to update address ', id)
                         const addressResponse = await axiosInstance.post(endpoints.addresses(id), {
                             name: username,
                             phone_number: phone,
@@ -87,7 +87,7 @@ function UpdateInfo({ visible, closeModal, id, username, firstName, lastName, ad
                         });
 
                         if (addressResponse.status === 201 && addressResponse.data) {
-                            console.log('POST new address ', addressResponse.data);
+                            // console.log('POST new address ', addressResponse.data);
                             refreshAddress(addressResponse.data);
                             closeModal();
                         } else {

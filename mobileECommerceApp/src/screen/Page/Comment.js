@@ -39,7 +39,7 @@ const Comment = ({ route }) => {
             const response = await api.get(`/products/${productId}/replyParentComment/`);
             if (response.data) {
                 setParentComments(response.data);
-                console.log('prComment ', response.data);
+                //console.log('prComment ', response.data);
             } else {
                 console.error('Error: response.data is empty');
             }
@@ -58,7 +58,7 @@ const Comment = ({ route }) => {
                 ...prevState,
                 [parentCommentId]: response.data
             }));
-            console.log('childComment ', response.data);
+            //console.log('childComment ', response.data);
         } catch (error) {
             console.error(`Error fetching childComments for parentCommentId ${parentCommentId}:`, error);
         }

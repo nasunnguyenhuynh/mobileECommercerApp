@@ -25,7 +25,7 @@ import Overall from "./Overall";
 const Stack = createStackNavigator();
 
 function Payment({ navigation }) {
-    console.log('Payment')
+    //console.log('Payment')
     const route = useRoute();
 
     return (

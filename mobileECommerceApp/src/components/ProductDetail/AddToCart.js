@@ -14,9 +14,9 @@ const AddToCart = ({ visible, closeModal, colors, productPrice, shopName, produc
     const navigation = useNavigation();
 
 
-    console.log('visible_tocard ', visible)
-    console.log('closeModal_tocard', closeModal)
-    console.log('deliveryPrice ', deliveryPrice)
+    // console.log('visible_tocard ', visible)
+    // console.log('closeModal_tocard', closeModal)
+    // console.log('deliveryPrice ', deliveryPrice)
     // Check visible
     if (!visible) return null;
     // Handle select image product
@@ -98,10 +98,18 @@ const AddToCart = ({ visible, closeModal, colors, productPrice, shopName, produc
                         </TouchableOpacity>
 
                         <View style={styles.wrapHeader}>
-                            <Image
-                                source={selectedImage}
-                                style={styles.largeImage}
-                            />
+                            {
+                                selectedImage ?
+                                    <Image
+                                        source={selectedImage}
+                                        style={styles.largeImage}
+                                    />
+                                    :
+                                    <Image
+                                        source={{ uri: colors[0].url_image }}
+                                        style={styles.largeImage}
+                                    />
+                            }
                             <View style={styles.wrapPrice}>
                                 <Text style={{ color: "red", fontSize: 16 }}>{FormatCurrency(productPrice)}đ</Text>
                             </View>
@@ -144,7 +152,7 @@ const AddToCart = ({ visible, closeModal, colors, productPrice, shopName, produc
                                     style={[styles.btnAddToCart, { backgroundColor: 'green' }]}
                                     onPress={() => {
                                         closeModal();
-                                        navigation.navigate('NavPayment', {                                     
+                                        navigation.navigate('NavPayment', {
                                             shopName: shopName,
                                             productId: productId,
                                             productName: productName,
@@ -212,7 +220,6 @@ const styles = StyleSheet.create({
     wrapColor: {
         borderColor: COLORS.lightGray,
         borderBottomWidth: 0.5,
-        paddingBottom: 10,
     },
     wrapColorTitle: {
         marginBottom: 5,
@@ -229,6 +236,7 @@ const styles = StyleSheet.create({
         width: "30%",
         paddingVertical: 4,
         paddingHorizontal: 8,
+        marginBottom: 8,
     },
     imgColor: {
         width: 30,

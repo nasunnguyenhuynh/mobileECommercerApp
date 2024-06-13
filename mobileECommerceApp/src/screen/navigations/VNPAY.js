@@ -31,7 +31,7 @@ function VNPAY({ navigation }) {
 
     const handleNavigationStateChange = async (navState) => {
         const { url: newUrl } = navState;
-        console.log('url_State ', newUrl)
+        //console.log('url_State ', newUrl)
         if (newUrl.includes('payment_return')) {
 
             const axiosInstance = await authAPI();
@@ -42,9 +42,9 @@ function VNPAY({ navigation }) {
             const vnp_ResponseCode = urlParams.get('vnp_ResponseCode');
             const vnp_TransactionNo = urlParams.get('vnp_TransactionNo');
             const vnp_Amount = urlParams.get('vnp_Amount') / 100;
-            console.log('vnp_ResponseCode ', vnp_ResponseCode)
-            console.log('vnp_TransactionNo ', vnp_TransactionNo)
-            console.log('vnp_Amount ', vnp_Amount)
+            // console.log('vnp_ResponseCode ', vnp_ResponseCode)
+            // console.log('vnp_TransactionNo ', vnp_TransactionNo)
+            // console.log('vnp_Amount ', vnp_Amount)
             setVnp_ResponseCode(vnp_ResponseCode);
             setVnp_TransactionNo(vnp_TransactionNo);
             setVnp_Amount(vnp_Amount);
@@ -53,7 +53,7 @@ function VNPAY({ navigation }) {
     };
 
     if (!url) {
-        console.error('url is undefined');
+        //console.error('url is undefined');
         return (
             <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
                 <Text>url is missing</Text>

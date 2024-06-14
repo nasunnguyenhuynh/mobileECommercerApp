@@ -13,80 +13,125 @@ import { Badge } from "react-native-elements";
 
 import api, { authAPI, endpoints } from "../../utils/api";
 import COLORS from "../../components/COLORS";
-
 const Comment = ({ route }) => {
     const { productId } = route.params;
-    const [parentComments, setParentComments] = useState([]);
-    const [childComments, setChildComments] = useState({});
-    const [expandedComments, setExpandedComments] = useState({}); // expand comment state
-    const [loadingParentComments, setLoadingParentComments] = useState(true); // loading parentComment state
-    const [replyText, setReplyText] = useState(''); // comment text state
-    const [replyingTo, setReplyingTo] = useState({ id: null, isParent: true }); // comment_id replying to State
-
-    useEffect(() => { // fetch parentComment for first init
-        fetchParentComments();
+    const [parentComment, setParentComment] = useState([]);
+    const [expandedComments, setExpandedComments] = useState({});
+    useEffect(() => {
+        fetchParentComment();
     }, [productId]);
 
     const [refreshing, setRefreshing] = useState(true); // For refreshing state
     const handleRefresh = () => {
-        setRefreshing(false);
-        fetchParentComments();
+        setParentComment([]);
+        setExpandedComments({});
+        setReplyTo(null);
+        setComment('');
+        fetchParentComment();
     };
 
-    const fetchParentComments = async () => {
+    const fetchParentComment = async () => {
         setRefreshing(true);
         try {
             const response = await api.get(`/products/${productId}/replyParentComment/`);
             if (response.data) {
-                setParentComments(response.data);
-                //console.log('prComment ', response.data);
+                setParentComment(response.data);
             } else {
                 console.error('Error: response.data is empty');
             }
         } catch (error) {
             console.error('Error fetching parentComments:', error);
         } finally {
-            setLoadingParentComments(false);
             setRefreshing(false);
         }
     };
 
-    const fetchChildComments = async (parentCommentId) => {
+    const fetchChildComment = async (parentCommentId) => {
         try {
             const response = await api.get(`/products/${productId}/replyParentComment/${parentCommentId}/replyChildComments/`);
-            setChildComments(prevState => ({
-                ...prevState,
-                [parentCommentId]: response.data
-            }));
-            //console.log('childComment ', response.data);
+            if (response.data) {
+                setExpandedComments(prevState => ({
+                    ...prevState,
+                    [parentCommentId]: response.data
+                }));
+            } else {
+                console.error('Error: response.data is empty');
+            }
         } catch (error) {
-            console.error(`Error fetching childComments for parentCommentId ${parentCommentId}:`, error);
+            console.error('Error fetching child comments:', error);
         }
     };
 
-    const handleToggleExpand = async (parentCommentId) => {
-        const isExpanded = expandedComments[parentCommentId];
-        if (!isExpanded && !childComments[parentCommentId]) {
-            await fetchChildComments(parentCommentId);
+    const handleToggle = (parentCommentId) => {
+        if (expandedComments[parentCommentId]) {
+            setExpandedComments(prevState => {
+                const newState = { ...prevState };
+                delete newState[parentCommentId];
+                return newState;
+            });
+        } else {
+            fetchChildComment(parentCommentId);
         }
-        setExpandedComments(prevState => ({
-            ...prevState,
-            [parentCommentId]: !isExpanded
-        }));
     };
 
-    const handleReply = (commentId, isParent) => {
-        setReplyingTo({ id: commentId, isParent });
-    };
+    const renderChildComment = (parentCommentId, childComment) => (
+        childComment
+            .filter(item => item.parent_comment_id === parentCommentId)
+            .map(item => (
+                <View style={styles.childCommentContainer} key={item.id.toString()}>
+                    <View style={styles.userContainer}>
+                        <Image source={{ uri: item.user.avatar }} style={styles.avatar} />
+                        <Text style={styles.username}>{item.user.username}</Text>
+                    </View>
+                    <Text style={styles.commentContent}>{item.content}</Text>
+                    {
+                        item.isParentCommentReply &&
+                        <TouchableOpacity onPress={() => handleToggle(item.id)}>
+                            <Text style={styles.replyComment}>
+                                {expandedComments[item.id] ? 'Collapse' : 'View All'}
+                            </Text>
+                        </TouchableOpacity>
+                    }
+                    <TouchableOpacity onPress={() => handleReplyPress(item.id)}>
+                        <Text style={styles.replyComment}>Reply</Text>
+                    </TouchableOpacity>
+                    {expandedComments[item.id] && renderChildComment(item.id, expandedComments[item.id])}
+                </View>
+            ))
+    );
 
-    const handleSendReply = async () => {
-        if (!replyText.trim()) return;
+    const renderParentComment = ({ item }) => (
+        <View style={styles.commentContainer} key={item.id.toString()}>
+            <View style={styles.userContainer}>
+                <Image source={{ uri: item.user.avatar }} style={styles.avatar} />
+                <Text style={styles.username}>{item.user.username}</Text>
+            </View>
+            <Text style={styles.commentContent}>{item.content}</Text>
+            {
+                item.isParentCommentReply &&
+                <TouchableOpacity onPress={() => handleToggle(item.id)}>
+                    <Text style={styles.replyComment}>
+                        {expandedComments[item.id] ? 'Collapse' : 'View All'}
+                    </Text>
+                </TouchableOpacity>
+            }
+            <TouchableOpacity onPress={() => handleReplyPress(item.id)}>
+                <Text style={styles.replyComment}>Reply</Text>
+            </TouchableOpacity>
+            {expandedComments[item.id] && renderChildComment(item.id, expandedComments[item.id])}
+        </View>
+    );
+
+    const [comment, setComment] = useState('');
+    const [replyTo, setReplyTo] = useState(null);
+    const handleSendComment = async () => {
+
+        if (!comment.trim()) return;
         try {
-            console.log('replyingTo.id, ', replyingTo.id)
-            // console.log('productId, ', productId)
+            setRefreshing(true);
             const body = {
-                "content": replyText,
-                "parent_comment_id": replyingTo.id ? replyingTo.id : null,
+                "content": comment,
+                "parent_comment_id": replyTo ? replyTo : null,
             }
 
             const axiosInstance = await authAPI();
@@ -96,110 +141,35 @@ const Comment = ({ route }) => {
                     'Content-Type': 'application/json', // Data format
                 },
             });
-
-            //Fetching updating Comment
-            replyingTo.id ? await fetchChildComments(replyingTo.id) : await fetchParentComments();
-
-            //Reset State
-            setReplyText('');
-            setReplyingTo({ id: null, isParent: true });
         } catch (error) {
-            console.error('Error sending reply:', error);
+            console.error('Error sending comment:', error);
+        } finally {
+            setRefreshing(false);
         }
     };
 
-    const renderChildComment = ({ item }) => (
-        <View style={styles.childCommentContainer} key={item.id.toString()}>
-            <View style={styles.userContainer}>
-                <Image source={{ uri: item.user.avatar }} style={styles.avatar} />
-                <Text style={styles.username}>{item.user.username}</Text>
-            </View>
-            <Text style={styles.commentContent}>{item.content}</Text>
-            <TouchableOpacity onPress={() => handleReply(item.id, false)}>
-                <Text style={styles.replyComment}>Reply</Text>
-            </TouchableOpacity>
-            {expandedComments[item.id] && childComments[item.id] && (
-                <FlatList
-                    data={childComments[item.id]}
-                    renderItem={renderChildComment}
-                    keyExtractor={(childItem) => childItem.id.toString()}
-                />
-            )}
-            {replyingTo.id === item.id && !replyingTo.isParent && (
-                <View style={styles.replyInputContainer}>
-                    <TextInput
-                        style={styles.replyInput}
-                        value={replyText}
-                        onChangeText={setReplyText}
-                        placeholder="Write a reply..."
-                    />
-                    <Button title="Send" onPress={handleSendReply} />
-                </View>
-            )}
-        </View>
-    );
-
-    const renderComment = ({ item }) => (
-        <View style={styles.commentContainer} key={item.id.toString()}>
-            <View style={styles.userContainer}>
-                <Image source={{ uri: item.user.avatar }} style={styles.avatar} />
-                <Text style={styles.username}>{item.user.username}</Text>
-            </View>
-            <Text style={styles.commentContent}>{item.content}</Text>
-            <TouchableOpacity onPress={() => handleToggleExpand(item.id)}>
-                {item.isParentCommentReply ?
-                    <Text style={styles.viewReplyComment}>
-                        {expandedComments[item.id] ? 'Thu gọn' : 'Xem thêm'}
-                    </Text> :
-                    <></>}
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => handleReply(item.id, true)}>
-                <Text style={styles.replyComment}>Reply</Text>
-            </TouchableOpacity>
-            {expandedComments[item.id] && childComments[item.id] && (
-                <FlatList
-                    data={childComments[item.id]}
-                    renderItem={renderChildComment}
-                    keyExtractor={(childItem) => childItem.id.toString()}
-                />
-            )}
-            {replyingTo.id === item.id && replyingTo.isParent && (
-                <View style={styles.replyInputContainer}>
-                    <TextInput
-                        style={styles.replyInput}
-                        value={replyText}
-                        onChangeText={setReplyText}
-                        placeholder="Write a reply..."
-                    />
-                    <Button title="Send" onPress={handleSendReply} />
-                </View>
-            )}
-        </View>
-    );
-
-    if (loadingParentComments) {
-        return <ActivityIndicator size="large" color="#0000ff" />;
-    }
-
-
+    const handleReplyPress = (id) => {
+        setReplyTo(replyTo === id ? null : id); // Toggle the reply state
+    };
     return (
         <>
             <FlatList
-                data={parentComments}
-                renderItem={renderComment}
+                data={parentComment}
+                renderItem={renderParentComment}
                 keyExtractor={(item) => item.id.toString()}
 
                 refreshing={refreshing}
                 onRefresh={handleRefresh}
             />
-            <View style={styles.replyInputContainer}>
+            {/* For comment */}
+            <View style={styles.commentInputContainer}>
                 <TextInput
-                    style={styles.replyInput}
-                    value={replyText}
-                    onChangeText={setReplyText}
-                    placeholder="Write comment..."
+                    style={styles.commentInput}
+                    value={comment}
+                    onChangeText={setComment}
+                    placeholder={replyTo ? `Reply to comment id ${replyTo}` : "Write comment..."}
                 />
-                <Button title="Send" onPress={handleSendReply} />
+                <Button title="Send" onPress={handleSendComment} />
             </View>
         </>
 
@@ -242,21 +212,17 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: '400',
     },
-    viewReplyComment: {
-        color: 'blue',
-        marginTop: 5,
-    },
     replyComment: {
         color: 'blue',
         marginTop: 5,
         marginLeft: 10,
     },
-    replyInputContainer: {
+    commentInputContainer: {
         flexDirection: 'row',
         alignItems: 'center',
         marginTop: 10,
     },
-    replyInput: {
+    commentInput: {
         flex: 1,
         borderColor: 'gray',
         borderWidth: 1,

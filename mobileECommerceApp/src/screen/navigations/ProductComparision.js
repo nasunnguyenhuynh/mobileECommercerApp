@@ -178,10 +178,10 @@ function ProductComparision({ navigation, route }) {
                         </View>
                         <View style={styles.content}>
                             <View style={styles.content1}>
-                                <Text style={{ flexWrap: 'wrap' }}>{pro1 ? pro1.sell.rating : ''}</Text>
+                                <Text style={{ flexWrap: 'wrap' }}>{pro1 ? Math.round(pro1.sell.rating * 10) / 10 : ''}</Text>
                             </View>
                             <View style={styles.content2}>
-                                <Text style={{ flexWrap: 'wrap' }}>{pro2 ? pro2.sell.rating : ''}</Text>
+                                <Text style={{ flexWrap: 'wrap' }}>{pro2 ? Math.round(pro2.sell.rating * 10) / 10 : ''}</Text>
                             </View>
                         </View>
                     </View>
